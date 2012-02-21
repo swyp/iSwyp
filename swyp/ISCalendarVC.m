@@ -65,7 +65,20 @@ static double iPadCalendarHeight	=	408;
 	[[self kalVC] didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
-#pragma mark - UITableViewDelegate
+#pragma mark - ISRenderVCDelegate
+-(void) didRenderImage:(UIImage *)image forRenderObject:(id)renderObject renderVC:(ISRenderVC *)vc{
+	self.exportingCalImage	=	image;
+	
+	[[swypWorkspaceViewController sharedSwypWorkspace] setContentDataSource:self];
+	[[self datasourceDelegate] datasourceSignificantlyModifiedContent:self];
+	[[swypWorkspaceViewController sharedSwypWorkspace] presentContentWorkspaceAtopViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
+}
+
+#pragma mark - CalendarView Delegate
+-(void)rePressedOnDay:(NSDate *)date withView:(UIView *)dayTile withController:(KalViewController *)controller{
+	[ISCalendarDayRenderVC beginRenderWithObject:[controller dayView:controller.dayView eventsForDate:date] retainedDelegate:self];
+}
+
 -(void)tappedOnEvent:(EKEvent *)event withController:(KalViewController *)controller{
 	
 	UIView * viewToRender	=	[controller dayView];

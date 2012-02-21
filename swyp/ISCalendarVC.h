@@ -10,8 +10,10 @@
 #import <Kal.h>
 #import "ISTabVC.h"
 #import "ISEventKitDataSource.h"
+#import "ISRenderVC.h"
+#import "ISCalendarDayRenderVC.h"
 
-@interface ISCalendarVC : ISTabVC <KalViewControllerDelegate>
+@interface ISCalendarVC : ISTabVC <KalViewControllerDelegate, ISRenderVCDelegate>
 @property (nonatomic, strong) ISEventKitDataSource *	calendarDataSource;
 @property (nonatomic, strong) KalViewController *		kalVC;
 

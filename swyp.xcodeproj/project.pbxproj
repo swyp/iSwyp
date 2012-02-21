@@ -91,6 +91,8 @@
 		7959A56214E779F500020F6B /* ISEventKitDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7959A56114E779F500020F6B /* ISEventKitDataSource.m */; };
 		7959A57914E77B9B00020F6B /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7959A57514E77B8700020F6B /* EventKit.framework */; };
 		7959A57A14E77B9B00020F6B /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7959A57614E77B8700020F6B /* EventKitUI.framework */; };
+		7959A62A14F2D77A00020F6B /* ISRenderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7959A62914F2D77900020F6B /* ISRenderVC.m */; };
+		7959A62D14F2D79500020F6B /* ISCalendarDayRenderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7959A62C14F2D79500020F6B /* ISCalendarDayRenderVC.m */; };
 		796271D214DC788200E5D17A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796271D114DC788200E5D17A /* UIKit.framework */; };
 		796271D414DC788200E5D17A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796271D314DC788200E5D17A /* Foundation.framework */; };
 		796271D614DC788200E5D17A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796271D514DC788200E5D17A /* CoreGraphics.framework */; };
@@ -226,6 +228,10 @@
 		7959A56114E779F500020F6B /* ISEventKitDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISEventKitDataSource.m; path = swyp/ISEventKitDataSource.m; sourceTree = "<group>"; };
 		7959A57514E77B8700020F6B /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		7959A57614E77B8700020F6B /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
+		7959A62814F2D77900020F6B /* ISRenderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISRenderVC.h; path = swyp/ISRenderVC.h; sourceTree = "<group>"; };
+		7959A62914F2D77900020F6B /* ISRenderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISRenderVC.m; path = swyp/ISRenderVC.m; sourceTree = "<group>"; };
+		7959A62B14F2D79500020F6B /* ISCalendarDayRenderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISCalendarDayRenderVC.h; path = swyp/ISCalendarDayRenderVC.h; sourceTree = "<group>"; };
+		7959A62C14F2D79500020F6B /* ISCalendarDayRenderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISCalendarDayRenderVC.m; path = swyp/ISCalendarDayRenderVC.m; sourceTree = "<group>"; };
 		796271CD14DC788200E5D17A /* swyp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swyp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		796271D114DC788200E5D17A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		796271D314DC788200E5D17A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -443,6 +449,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7959A62414F2D6D600020F6B /* Renders */ = {
+			isa = PBXGroup;
+			children = (
+				7959A62814F2D77900020F6B /* ISRenderVC.h */,
+				7959A62914F2D77900020F6B /* ISRenderVC.m */,
+				7959A62B14F2D79500020F6B /* ISCalendarDayRenderVC.h */,
+				7959A62C14F2D79500020F6B /* ISCalendarDayRenderVC.m */,
+			);
+			name = Renders;
+			sourceTree = "<group>";
+		};
 		796271C214DC788200E5D17A = {
 			isa = PBXGroup;
 			children = (
@@ -523,6 +540,7 @@
 		796271F314DC790100E5D17A /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7959A62414F2D6D600020F6B /* Renders */,
 				7962726814DC7D2700E5D17A /* ISSwypActionSelectorVC.h */,
 				7962726914DC7D2700E5D17A /* ISSwypActionSelectorVC.m */,
 				79527C8714E3620F003002AF /* history item preview */,
@@ -882,6 +900,8 @@
 				3E2B4F9014E58E530090D948 /* ISPasteboardObject.m in Sources */,
 				7959A55714E769F000020F6B /* ISTabVC.m in Sources */,
 				7959A56214E779F500020F6B /* ISEventKitDataSource.m in Sources */,
+				7959A62A14F2D77A00020F6B /* ISRenderVC.m in Sources */,
+				7959A62D14F2D79500020F6B /* ISCalendarDayRenderVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

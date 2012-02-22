@@ -19,6 +19,8 @@ static const NSInteger kEmailField = 2;
 
 @implementation ISContactCardVC
 
+@synthesize tableView = _tableView;
+
 - (id)init {
     self = [super init];
     if (self){
@@ -42,7 +44,7 @@ static const NSInteger kEmailField = 2;
 - (void)viewDidLoad {
     [super viewDidLoad];
         
-    self.view.frame = CGRectMake(0, 0, 300, 200);
+    self.view.frame = CGRectMake(0, 0, 300, 176);
     self.view.autoresizingMask = UIViewAutoresizingFlexibleMargins;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"handmadepaper"]];
     self.view.clipsToBounds = NO;
@@ -52,11 +54,16 @@ static const NSInteger kEmailField = 2;
     layer.shadowOffset = CGSizeMake(0, 20);
     layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
     
-    self.tableView.frame = self.view.frame;
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(72, 0, 300-72, 176) style:UITableViewStylePlain];
     self.tableView.clipsToBounds = YES;
     self.tableView.scrollEnabled = NO;
-    
     self.tableView.dataSource = _model;
+        
+    self.faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.faceButton.frame = CGRectMake(8, 8, 56, 56);
+    self.faceButton.backgroundColor = [UIColor whiteColor];
+        
+    [self.view addSubviews:self.tableView, self.faceButton, nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tappedOutside:) name:@"tappedOutside" object:NULL];
 }
@@ -120,7 +127,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 
     switch (textField.tag) {
         case kNumberField:
-            textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+            textField.keyboardType = UIKeyboardTypeNumberPad;
             break;
         case kEmailField:
             textField.keyboardType = UIKeyboardTypeEmailAddress;

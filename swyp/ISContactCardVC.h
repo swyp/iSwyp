@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "NimbusModels.h"
 
-@interface ISContactCardVC : UITableViewController <UITextFieldDelegate> {
+@interface ISContactCardVC : UIViewController <UITextFieldDelegate, UITableViewDelegate> {
     NITableViewModel* _model;
     UITextField* _activeField;
 }
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIButton *faceButton;
 
 @end

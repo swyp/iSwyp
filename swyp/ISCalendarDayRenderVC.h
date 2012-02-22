@@ -11,6 +11,6 @@
 #import "MADayView.h"
 
 @interface ISCalendarDayRenderVC : ISRenderVC <MADayViewDataSource>
-@property (nonatomic, strong) NSArray* renderDayMAEvents;
-
+@property (nonatomic, strong) NSArray* renderObject;
++(id) beginRenderWithObject:(NSArray*)renderMAEvents retainedDelegate:(NSObject<ISRenderVCDelegate>*)delegate;
 @end

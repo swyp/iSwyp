@@ -23,6 +23,8 @@
 	self.view.backgroundColor	=	[UIColor colorWithWhite:0 alpha:.5];
     
     UITapGestureRecognizer *tapOutsideRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedOutside:)];
+	[tapOutsideRecognizer setCancelsTouchesInView:FALSE];
+	[tapOutsideRecognizer setDelaysTouchesEnded:FALSE];
     [self.view addGestureRecognizer:tapOutsideRecognizer];
 }
 
@@ -78,8 +80,10 @@
 }
 
 -(void)tappedOutside:(UITapGestureRecognizer *)tap{
-    NSNotification *notification = [NSNotification notificationWithName:@"tappedOutside" object:tap];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+	if ([tap view] == [self.view hitTest:[tap locationInView:self.view] withEvent:nil]){
+		NSNotification *notification = [NSNotification notificationWithName:@"tappedOutsideTabView" object:tap];
+		[[NSNotificationCenter defaultCenter] postNotification:notification];		
+	}
 }
 
 @end

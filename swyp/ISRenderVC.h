@@ -10,7 +10,7 @@
 
 @class ISRenderVC;
 @protocol ISRenderVCDelegate <NSObject>
--(void) didRenderImage:(UIImage*)image forRenderObject:(id)renderObject renderVC:(ISRenderVC*)vc;
+-(void) didRenderImage:(UIImage*)image thumbnail:(UIImage*)renderThumbnailImage forRenderObject:(id)renderObject renderVC:(ISRenderVC*)vc;
 @end
 
 @interface ISRenderVC : UIViewController
@@ -21,8 +21,8 @@
 
 -(void) startRendering;
 -(void) stopRenderingReleaseDelegateAndRenderObject;
-
+-(UIImage*)	constrainImage:(UIImage*)image toSize:(CGSize)maxSize;
 
 #pragma mark internal
--(void)didFinalizeRenderWithImage:(UIImage*)renderImage;
+-(void)didFinalizeRenderWithImage:(UIImage*)renderImage thumbnail:(UIImage*)thumbnail;
 @end

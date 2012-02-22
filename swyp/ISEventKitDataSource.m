@@ -29,7 +29,7 @@ static BOOL IsDateBetweenInclusive(NSDate *date, NSDate *begin, NSDate *end)
     eventStore = [[EKEventStore alloc] init];
     events = [[NSMutableArray alloc] init];
     items = [[NSMutableArray alloc] init];
-    eventStoreQueue = dispatch_queue_create("com.thepolypeptides.nativecalexample", NULL);
+    eventStoreQueue = dispatch_queue_create("com.highfyve.calendarqueue", NULL);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventStoreChanged:) name:EKEventStoreChangedNotification object:nil];
   }
   return self;

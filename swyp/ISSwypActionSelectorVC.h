@@ -35,4 +35,6 @@
 -(id) initWithObjectContext:(NSManagedObjectContext*)context;
 - (void)updatePasteboard;
 
+-(void) hideVCs;
+
 @end

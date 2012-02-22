@@ -66,8 +66,8 @@ static double iPadCalendarHeight	=	408;
 }
 
 #pragma mark - ISRenderVCDelegate
--(void) didRenderImage:(UIImage *)image forRenderObject:(id)renderObject renderVC:(ISRenderVC *)vc{
-	self.exportingCalImage	=	image;
+-(void) didRenderImage:(UIImage*)image thumbnail:(UIImage*)renderThumbnailImage forRenderObject:(id)renderObject renderVC:(ISRenderVC*)vc{
+	self.exportingCalImage	=	renderThumbnailImage;
 	
 	[[swypWorkspaceViewController sharedSwypWorkspace] setContentDataSource:self];
 	[[self datasourceDelegate] datasourceSignificantlyModifiedContent:self];

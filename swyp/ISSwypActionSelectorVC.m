@@ -44,13 +44,26 @@
 	return _pasteboardVC;
 }
 
+-(void) hideVCs{
+	[_actionTabBar setSelectedItem:nil];
+	[_calendarVC.view removeFromSuperview];
+	[_contactVC.view removeFromSuperview];
+	[_pasteboardVC.view removeFromSuperview];
+}
+
 #pragma mark - NSObject
 -(id) initWithObjectContext:(NSManagedObjectContext*)context{
 	if (self  = [super initWithNibName:nil bundle:nil]){
 		_objectContext	=	context;
         _selectedTab = -1;
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideVCs) name:@"tappedOutsideTabView" object:nil];
 	}
 	return self;
+}
+
+-(void) dealloc{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - UIViewController

@@ -130,6 +130,7 @@
 		7962735E14DCBF3500E5D17A /* ISHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7962735414DCBF3500E5D17A /* ISHistoryCell.m */; };
 		79925D5F14E6C34900FE2412 /* ISSwypHistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 79925D5E14E6C34900FE2412 /* ISSwypHistoryItem.m */; };
 		79925D6014E6C35E00FE2412 /* ISSwypHistoryItem.h in Sources */ = {isa = PBXBuildFile; fileRef = 79925D5D14E6C34900FE2412 /* ISSwypHistoryItem.h */; };
+		79CE219114F5A03E00930A78 /* ISCalendarEventRenderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CE219014F5A03E00930A78 /* ISCalendarEventRenderVC.m */; };
 		79F213EC14E6B37D00442CD2 /* UIWindow+ISUXAddons.m in Sources */ = {isa = PBXBuildFile; fileRef = 79F213EB14E6B37D00442CD2 /* UIWindow+ISUXAddons.m */; };
 /* End PBXBuildFile section */
 
@@ -325,6 +326,8 @@
 		7962735414DCBF3500E5D17A /* ISHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISHistoryCell.m; path = swyp/ISHistoryCell.m; sourceTree = "<group>"; };
 		79925D5D14E6C34900FE2412 /* ISSwypHistoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISSwypHistoryItem.h; path = swyp/ISSwypHistoryItem.h; sourceTree = "<group>"; };
 		79925D5E14E6C34900FE2412 /* ISSwypHistoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISSwypHistoryItem.m; path = swyp/ISSwypHistoryItem.m; sourceTree = "<group>"; };
+		79CE218F14F5A03E00930A78 /* ISCalendarEventRenderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISCalendarEventRenderVC.h; path = swyp/ISCalendarEventRenderVC.h; sourceTree = "<group>"; };
+		79CE219014F5A03E00930A78 /* ISCalendarEventRenderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISCalendarEventRenderVC.m; path = swyp/ISCalendarEventRenderVC.m; sourceTree = "<group>"; };
 		79F213EA14E6B37D00442CD2 /* UIWindow+ISUXAddons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+ISUXAddons.h"; sourceTree = "<group>"; };
 		79F213EB14E6B37D00442CD2 /* UIWindow+ISUXAddons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+ISUXAddons.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -463,6 +466,8 @@
 				7959A62914F2D77900020F6B /* ISRenderVC.m */,
 				7959A62B14F2D79500020F6B /* ISCalendarDayRenderVC.h */,
 				7959A62C14F2D79500020F6B /* ISCalendarDayRenderVC.m */,
+				79CE218F14F5A03E00930A78 /* ISCalendarEventRenderVC.h */,
+				79CE219014F5A03E00930A78 /* ISCalendarEventRenderVC.m */,
 			);
 			name = Renders;
 			sourceTree = "<group>";
@@ -912,6 +917,7 @@
 				7959A62A14F2D77A00020F6B /* ISRenderVC.m in Sources */,
 				7959A62D14F2D79500020F6B /* ISCalendarDayRenderVC.m in Sources */,
 				3E8E301614EB3CC2008F08B5 /* ISContactCardVC.m in Sources */,
+				79CE219114F5A03E00930A78 /* ISCalendarEventRenderVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,8 @@
 
 #import "ISCalendarVC.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ISCalendarDayRenderVC.h"
+#import "ISCalendarEventRenderVC.h"
 
 static double iPadCalendarHeight	=	408;
 
@@ -69,6 +71,10 @@ static double iPadCalendarHeight	=	408;
 -(void) didRenderImage:(UIImage*)image thumbnail:(UIImage*)renderThumbnailImage forRenderObject:(id)renderObject renderVC:(ISRenderVC*)vc{
 	self.exportingCalImage	=	renderThumbnailImage;
 	
+//	if ([renderObject isKindOfClass:[EKEvent class]]){
+//		
+//	}
+	
 	[[swypWorkspaceViewController sharedSwypWorkspace] setContentDataSource:self];
 	[[self datasourceDelegate] datasourceSignificantlyModifiedContent:self];
 	[[swypWorkspaceViewController sharedSwypWorkspace] presentContentWorkspaceAtopViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
@@ -80,20 +86,7 @@ static double iPadCalendarHeight	=	408;
 }
 
 -(void)tappedOnEvent:(EKEvent *)event withController:(KalViewController *)controller{
-	
-	UIView * viewToRender	=	[controller dayView];
-	
-	UIGraphicsBeginImageContextWithOptions(viewToRender.size,YES, 0);
-	[viewToRender.layer renderInContext:UIGraphicsGetCurrentContext()];
-	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
-	self.exportingCalImage	=	image;
-	
-	[[swypWorkspaceViewController sharedSwypWorkspace] setContentDataSource:self];
-	[[self datasourceDelegate] datasourceSignificantlyModifiedContent:self];
-	[[swypWorkspaceViewController sharedSwypWorkspace] presentContentWorkspaceAtopViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
-
-	
+	[ISCalendarEventRenderVC beginRenderWithObject:event retainedDelegate:self];
 }
 
 #pragma mark <swypContentDataSourceProtocol, swypConnectionSessionDataDelegate>

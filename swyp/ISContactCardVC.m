@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 ExoMachina. All rights reserved.
 //
 
+#import "UIImage+Resize.h"
+
 #import "ISAppDelegate.h"
 #import "ISContactCardVC.h"
 #import <QuartzCore/QuartzCore.h>
@@ -13,6 +15,8 @@
 static const NSInteger kNameField = 0;
 static const NSInteger kNumberField = 1;
 static const NSInteger kEmailField = 2;
+
+static const NSInteger PICTURE_SIDE = 56;
 
 @interface UIView (Recurse)
     - (NSString *)recursiveDescription;
@@ -65,8 +69,9 @@ static const NSInteger kEmailField = 2;
     self.tableView.dataSource = _model;
         
     self.faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.faceButton.frame = CGRectMake(8, 8, 56, 56);
+    self.faceButton.frame = CGRectMake(8, 8, PICTURE_SIDE, PICTURE_SIDE);
     self.faceButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    self.faceButton.layer.cornerRadius = 8;
     self.faceButton.showsTouchWhenHighlighted = YES;
     self.faceButton.titleLabel.font = [UIFont boldSystemFontOfSize:12];
     self.faceButton.titleLabel.textAlignment = UITextAlignmentCenter;
@@ -86,6 +91,10 @@ static const NSInteger kEmailField = 2;
 
     [self.view addSubviews:self.tableView, self.faceButton, self.editButton, nil];
     
+    _imagePickerController = [[UIImagePickerController alloc] init];
+    _imagePickerController.delegate = self;
+    _imagePickerController.allowsImageEditing = YES;
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tappedOutside:) name:@"tappedOutside" object:NULL];
 }
 
@@ -102,6 +111,11 @@ static const NSInteger kEmailField = 2;
     
     [self.editButton setBackgroundImage:stretchedButtonImage forState:UIControlStateNormal];
     [self.editButton setBackgroundImage:stretchedPressedButtonImage forState:UIControlStateHighlighted];
+    
+    UIImage *faceImage = [UIImage imageWithContentsOfFile:[self documentsPathForFileName:@"face.png"]];
+    if (faceImage){
+        [self.faceButton setImage:faceImage forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark -
@@ -134,24 +148,24 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 #pragma mark UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    imagePickerController.delegate = self;
-    imagePickerController.allowsImageEditing = YES;
-        
     switch (buttonIndex) {
         case 0:
-            imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+                _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            } else {
+                _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            }
             break;
         case 1:
-            imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             break;
             
         default:
             break;
     }
     
-    if (buttonIndex != 2){
-        [[self _rootVC] presentModalViewController:imagePickerController animated:YES];
+    if (buttonIndex != actionSheet.cancelButtonIndex){
+        [[self _rootVC] presentModalViewController:_imagePickerController animated:YES];
     }
 }
 
@@ -162,12 +176,19 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         didFinishPickingImage:(UIImage *)image 
                   editingInfo:(NSDictionary *)editingInfo {
     // Do something with the image here.
-    [self.faceButton setImage:image forState:UIControlStateNormal];
+    UIImage *resizedImage = [image thumbnailImage:PICTURE_SIDE 
+                                transparentBorder:0 
+                                     cornerRadius:8 
+                             interpolationQuality:1];
+    NSData *faceImageData = UIImagePNGRepresentation(resizedImage);
+    NSString *filePath = [self documentsPathForFileName:@"face.png"]; //Add the file name
+    [faceImageData writeToFile:filePath atomically:YES];
+
+    [self.faceButton setImage:resizedImage forState:UIControlStateNormal];
     [[self _rootVC] dismissModalViewControllerAnimated:YES];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    NSLog(@"Tryna cance.");
     [[self _rootVC] dismissModalViewControllerAnimated:YES];
 }
 
@@ -206,6 +227,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     textField.returnKeyType = UIReturnKeyNext;
+    textField.enablesReturnKeyAutomatically = YES;
+    textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _activeField = textField;
 
     switch (textField.tag) {
@@ -261,16 +284,29 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_isEditing) [self toggleEditing];
 
     // @TODO: Need to modify action sheet based on whether the device has a camera.
-    UIActionSheet *photoSelectorSheet = [[UIActionSheet alloc] initWithTitle:LocStr(@"How would you like to set your picture?", nil) 
-                                                                    delegate:self cancelButtonTitle:LocStr(@"Cancel",nil) 
-                                                      destructiveButtonTitle:nil 
-                                                           otherButtonTitles:LocStr(@"Take Picture",nil), LocStr(@"Choose Picture", nil), nil];
+    UIActionSheet *photoSelectorSheet = [[UIActionSheet alloc] init];
+    photoSelectorSheet.delegate = self;
+    photoSelectorSheet.title = LocStr(@"How would you like to set your picture?", nil);
+
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        [photoSelectorSheet addButtonWithTitle:LocStr(@"Take Picture",nil)];
+    }
+    [photoSelectorSheet addButtonWithTitle:LocStr(@"Choose Picture", nil)];
+    [photoSelectorSheet addButtonWithTitle:LocStr(@"Cancel", nil)];
+    photoSelectorSheet.cancelButtonIndex = (photoSelectorSheet.numberOfButtons - 1);
     
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad){
         [photoSelectorSheet showFromRect:self.faceButton.frame inView:self.view animated:YES];
     } else {
         [photoSelectorSheet showInView:[self _rootVC].view];
     }
+}
+
+- (NSString *)documentsPathForFileName:(NSString *)name {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);  
+    NSString *documentsPath = [paths objectAtIndex:0];
+    
+    return [documentsPath stringByAppendingPathComponent:name]; 
 }
 
 @end

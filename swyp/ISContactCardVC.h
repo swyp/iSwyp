@@ -11,9 +11,10 @@
 
 @interface ISContactCardVC : UIViewController <UITextFieldDelegate, 
 UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate> {
-    NITableViewModel*   _model;
-    UITextField*        _activeField;
-    BOOL                _isEditing;
+    NITableViewModel*           _model;
+    UITextField*                _activeField;
+    UIImagePickerController*    _imagePickerController;
+    BOOL                        _isEditing;
 }
 
 @property (nonatomic, strong) UITableView *tableView;

@@ -68,11 +68,17 @@ static const NSInteger kEmailField = 2;
     self.faceButton.frame = CGRectMake(8, 8, 56, 56);
     self.faceButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     self.faceButton.showsTouchWhenHighlighted = YES;
+    self.faceButton.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+    self.faceButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    self.faceButton.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.faceButton.titleLabel.textColor = [UIColor blackColor];
+    self.faceButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [self.faceButton setTitle:LocStr(@"Add an image",nil) forState:UIControlStateNormal];
     [self.faceButton addTarget:self action:@selector(showPhotoSelectorActionSheet) forControlEvents:UIControlEventTouchUpInside];
     
     self.editButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.editButton.frame = CGRectMake(8, 96, 56, 28);
-    self.editButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    self.editButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     [self.editButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [self.editButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.editButton setTitle:LocStr(@"Edit", @"Edit contact info") forState:UIControlStateNormal];
@@ -156,7 +162,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         didFinishPickingImage:(UIImage *)image 
                   editingInfo:(NSDictionary *)editingInfo {
     // Do something with the image here.
-    [self.faceButton setBackgroundImage:image forState:UIControlStateNormal];
+    [self.faceButton setImage:image forState:UIControlStateNormal];
     [[self _rootVC] dismissModalViewControllerAnimated:YES];
 }
 

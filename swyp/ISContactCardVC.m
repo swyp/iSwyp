@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 ExoMachina. All rights reserved.
 //
 
+#import "ISAppDelegate.h"
 #import "ISContactCardVC.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -20,6 +21,8 @@ static const NSInteger kEmailField = 2;
 @implementation ISContactCardVC
 
 @synthesize tableView = _tableView;
+@synthesize faceButton = _faceButton;
+@synthesize editButton = _editButton;
 
 - (id)init {
     self = [super init];
@@ -43,6 +46,8 @@ static const NSInteger kEmailField = 2;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _isEditing = NO;
         
     self.view.frame = CGRectMake(0, 0, 300, 176);
     self.view.autoresizingMask = UIViewAutoresizingFlexibleMargins;
@@ -61,11 +66,36 @@ static const NSInteger kEmailField = 2;
         
     self.faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.faceButton.frame = CGRectMake(8, 8, 56, 56);
-    self.faceButton.backgroundColor = [UIColor whiteColor];
-        
-    [self.view addSubviews:self.tableView, self.faceButton, nil];
+    self.faceButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    self.faceButton.showsTouchWhenHighlighted = YES;
+    [self.faceButton addTarget:self action:@selector(showPhotoSelectorActionSheet) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.editButton.frame = CGRectMake(8, 96, 56, 28);
+    self.editButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    [self.editButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.editButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.editButton setTitle:LocStr(@"Edit", @"Edit contact info") forState:UIControlStateNormal];
+    [self.editButton addTarget:self action:@selector(toggleEditing) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.view addSubviews:self.tableView, self.faceButton, self.editButton, nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tappedOutside:) name:@"tappedOutside" object:NULL];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    UIImage *buttonImage = [UIImage imageNamed:@"FlatButtonSmall.png"];
+    UIImage *pressedButtonImage = [UIImage imageNamed:@"FlatButtonSmallPressed.png"];
+    
+    // And create the stretchy version.
+    float w = buttonImage.size.width / 2, h = buttonImage.size.height / 2;
+    UIImage *stretchedButtonImage = [buttonImage stretchableImageWithLeftCapWidth:w topCapHeight:h];
+    UIImage *stretchedPressedButtonImage = [pressedButtonImage stretchableImageWithLeftCapWidth:w topCapHeight:h];
+    
+    [self.editButton setBackgroundImage:stretchedButtonImage forState:UIControlStateNormal];
+    [self.editButton setBackgroundImage:stretchedPressedButtonImage forState:UIControlStateHighlighted];
 }
 
 #pragma mark -
@@ -82,18 +112,58 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (NSString *)nameForTag:(NSInteger)tag{
     switch (tag) {
         case 0:
-            return @"Name";
+            return LocStr(@"Name", @"The person's name");
             break;
         case 1:
-            return @"Number";
+            return LocStr(@"Number", @"Phone number");
             break;
         case 2:
-            return @"Email";
+            return LocStr(@"Email", @"Email address");
             break;
     }
     return nil;
 }
 
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsImageEditing = YES;
+        
+    switch (buttonIndex) {
+        case 0:
+            imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            break;
+        case 1:
+            imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (buttonIndex != 2){
+        [[self _rootVC] presentModalViewController:imagePickerController animated:YES];
+    }
+}
+
+#pragma mark -
+#pragma mark UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker 
+        didFinishPickingImage:(UIImage *)image 
+                  editingInfo:(NSDictionary *)editingInfo {
+    // Do something with the image here.
+    [self.faceButton setBackgroundImage:image forState:UIControlStateNormal];
+    [[self _rootVC] dismissModalViewControllerAnimated:YES];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    NSLog(@"Tryna cance.");
+    [[self _rootVC] dismissModalViewControllerAnimated:YES];
+}
 
 #pragma mark -
 #pragma mark UITableViewDelegate
@@ -111,11 +181,18 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 #pragma mark -
 #pragma mark UITextFieldDelegate
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    return _isEditing;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField.tag != 2){
         NITextInputFormElementCell* cell = (NITextInputFormElementCell *)[self.tableView viewWithTag:(textField.tag+1)];
         [cell.textField becomeFirstResponder];
         return NO;
+    } else {
+        // last field, end editing.
+        [self toggleEditing];
     }
     _activeField = nil;
     return YES;
@@ -146,16 +223,48 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 
 #pragma mark- Other Functions
 
--(void)tappedOutside:(NSNotification *)notification{
+- (UIViewController *)_rootVC {
+    ISAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    return appDelegate.window.rootViewController;
+}
+
+- (void)tappedOutside:(NSNotification *)notification{
     UITapGestureRecognizer *tap = (UITapGestureRecognizer *)[notification object];
     CGPoint touchPoint = [tap locationInView:self.view];
     if (touchPoint.x < 0 || touchPoint.x > self.view.width || 
         touchPoint.y < 0 || touchPoint.y > self.view.height){
-        if (_activeField){
-            [_activeField resignFirstResponder];
-        }
+        
+        if (_activeField) [_activeField resignFirstResponder];
     }
 }
 
+- (void)toggleEditing{
+    _isEditing = !_isEditing;
+    if (_isEditing){        
+        [self.editButton setTitle:LocStr(@"Done", @"Done editing contact info") forState:UIControlStateNormal];
+        NITextInputFormElementCell *firstCell = (NITextInputFormElementCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 
+                                                                                                                                       inSection:0]];
+        [firstCell.textField becomeFirstResponder];
+    } else {
+        if (_activeField) [_activeField resignFirstResponder];
+        [self.editButton setTitle:LocStr(@"Edit", @"Edit contact info") forState:UIControlStateNormal];
+    }
+}
+
+- (void)showPhotoSelectorActionSheet {
+    if (_isEditing) [self toggleEditing];
+
+    // @TODO: Need to modify action sheet based on whether the device has a camera.
+    UIActionSheet *photoSelectorSheet = [[UIActionSheet alloc] initWithTitle:LocStr(@"How would you like to set your picture?", nil) 
+                                                                    delegate:self cancelButtonTitle:LocStr(@"Cancel",nil) 
+                                                      destructiveButtonTitle:nil 
+                                                           otherButtonTitles:LocStr(@"Take Picture",nil), LocStr(@"Choose Picture", nil), nil];
+    
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad){
+        [photoSelectorSheet showFromRect:self.faceButton.frame inView:self.view animated:YES];
+    } else {
+        [photoSelectorSheet showInView:[self _rootVC].view];
+    }
+}
 
 @end

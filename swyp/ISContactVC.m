@@ -11,6 +11,8 @@
 
 @implementation ISContactVC
 
+@synthesize childViewController = _childViewController;
+
 +(UITabBarItem*)tabBarItem{
 	return [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Contact", @"Your contact card on tab bar.") image:[UIImage imageNamed:@"user"] tag:0];
 }
@@ -44,7 +46,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
         CGFloat ty = self.view.origin.y - contactCard.view.origin.y + 
-                    (self.view.height-contactCard.view.height)/2;
+                    (self.view.height-contactCard.view.height)/2 - 48;
         contactCard.view.transform = CGAffineTransformTranslate(contactCard.view.transform, 0, ty);
     }completion:^(BOOL finished){
         
@@ -66,6 +68,8 @@
     [super viewDidLoad];
     
     contactCard = [[ISContactCardVC alloc] init];
+    [self addChildViewController:contactCard];
+    
     contactCard.view.origin = CGPointMake((self.view.width - 300)/2, self.view.size.height);
     [self.view addSubview:contactCard.view];
 }
@@ -81,6 +85,11 @@
 {
     // Return YES for supported orientations
 	return YES;
+}
+
+- (void)addChildViewController:(UIViewController *)childController {
+    [super addChildViewController:childController];
+    self.childViewController = childController;
 }
 
 @end

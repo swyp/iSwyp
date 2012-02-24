@@ -14,4 +14,6 @@
     ISContactCardVC *contactCard;
 }
 
+@property (nonatomic, assign) UIViewController *childViewController;
+
 @end

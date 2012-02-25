@@ -54,11 +54,11 @@
 	
 	if ([[self itemType] isFileType:[NSString textPlainFileType]]){
 		representation	=	[[NSString alloc]  initWithBytes:[[self itemData] bytes] length:[[self itemData] length] encoding: NSUTF8StringEncoding]; 
-	}else if ([[self itemType] isFileType:[NSString swypAddressFileType]]){
+	} else if ([[self itemType] isFileType:[NSString swypAddressFileType]]){
 		representation	=	[[NSString alloc]  initWithBytes:[[self itemData] bytes] length:[[self itemData] length] encoding: NSUTF8StringEncoding];
-	}else if ([[self itemType] isFileType:[NSString swypAddressFileType]]){
-		representation	=	[[NSString alloc]  initWithBytes:[[self itemData] bytes] length:[[self itemData] length] encoding: NSUTF8StringEncoding];
-	}
+	} else if ([[self itemType] isFileType:[NSString swypContactFileType]]){
+        representation = [[self itemDataDictionaryRep] objectForKey:@"Name"];
+    }
 	
 	return representation;
 }
@@ -152,12 +152,14 @@
 
 -(NSDictionary*) itemDataDictionaryRep{
 	NSDictionary * parsedDict	=	nil;
-	if ([[self itemType] isFileType:[NSString swypAddressFileType]] || [[self itemType] isFileType:[NSString swypContactFileType]]){
+	if ([[self itemType] isFileType:[NSString swypAddressFileType]]){
 		NSString *	readString	=	[[NSString alloc]  initWithBytes:[[self itemData] bytes] length:[[self itemData] length] encoding: NSUTF8StringEncoding];
 		if (StringHasText(readString)){
 			parsedDict				=	[NSDictionary dictionaryWithJSONString:readString];
 		}
-	}
+	} else if ([[self itemType] isFileType:[NSString swypContactFileType]]){
+        parsedDict = [NSKeyedUnarchiver unarchiveObjectWithData:[self itemType]];
+    }
 	
 	return parsedDict;
 }
@@ -194,7 +196,7 @@
 		if ([[self itemType] isFileType:[NSString imagePNGFileType]]){
 			sendData	=	 UIImageJPEGRepresentation([UIImage imageWithData:[self itemData]],.8);
 		}else{
-			sendData	=	[self itemPreviewImage];//already jpeg
+			sendData	=	[self itemPreviewImage]; //already jpeg
 		}
 	}else{
 		EXOLog(@"No data coverage for content type %@ of ID %@",type,contentID);

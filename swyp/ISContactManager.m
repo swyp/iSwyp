@@ -26,9 +26,8 @@
 - (void)showWorkspaceWithContactInfo:(NSDictionary *)theInfo andViewImage:(UIImage *)theImage {
     self.contactInfo = theInfo;
     self.thumbnailImage = theImage;
-    
-    [[self datasourceDelegate] datasourceSignificantlyModifiedContent:self];
 
+    [[self datasourceDelegate] datasourceSignificantlyModifiedContent:self];
     [_swypWorkspace presentContentWorkspaceAtopRootViewController];
 }
 
@@ -82,7 +81,9 @@
 -(NSArray*)supportedFileTypesForReceipt{
 	return nil;
 }
--(void) yieldedData:(NSData *)streamData ofType:(NSString *)streamType fromDiscernedStream:(swypDiscernedInputStream *)discernedStream inConnectionSession:(swypConnectionSession *)session{
+-(void) yieldedData:(NSData *)streamData ofType:(NSString *)streamType 
+fromDiscernedStream:(swypDiscernedInputStream *)discernedStream 
+inConnectionSession:(swypConnectionSession *)session{
 	
 }
 

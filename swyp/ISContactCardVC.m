@@ -107,9 +107,7 @@ static const NSInteger PICTURE_SIDE = 56;
     _imagePickerController = [[UIImagePickerController alloc] init];
     _imagePickerController.delegate = self;
     _imagePickerController.allowsEditing = YES;
-    
-    _contactManager = [[ISContactManager alloc] init];
-    
+        
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tappedOutside:) name:@"tappedOutside" object:NULL];
 }
 
@@ -194,9 +192,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
                                 transparentBorder:0 
                                      cornerRadius:8 
                              interpolationQuality:1];
+    
     NSData *faceImageData = UIImagePNGRepresentation(resizedImage);
     NSString *filePath = [self documentsPathForFileName:@"face.png"]; //Add the file name
     [faceImageData writeToFile:filePath atomically:YES];
+    
+    [self.contactInfo setValue:resizedImage forKey:@"Image"];
 
     [self.faceButton setImage:resizedImage forState:UIControlStateNormal];
     [[self _rootVC] dismissModalViewControllerAnimated:YES];
@@ -332,7 +333,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         
         self.editButton.hidden = NO;
         
-        [_contactManager showWorkspaceWithContactInfo:self.contactInfo andViewImage:thumbnailImage];
+        ISContactManager *contactManager = [[ISContactManager alloc] init];
+        [contactManager showWorkspaceWithContactInfo:self.contactInfo andViewImage:thumbnailImage];
     }
 }
 

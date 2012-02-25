@@ -15,7 +15,6 @@ UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate> {
     NITableViewModel*           _model;
     UITextField*                _activeField;
     UIImagePickerController*    _imagePickerController;
-    ISContactManager*           _contactManager;
     BOOL                        _isEditing;
 }
 

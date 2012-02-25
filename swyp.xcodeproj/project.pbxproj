@@ -23,6 +23,7 @@
 		3E2B4F9314E5CA620090D948 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E2B4F9114E5CA520090D948 /* AssetsLibrary.framework */; };
 		3E8E300C14EB381A008F08B5 /* handmadepaper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E8E300B14EB381A008F08B5 /* handmadepaper@2x.png */; };
 		3E8E301614EB3CC2008F08B5 /* ISContactCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E301514EB3CC0008F08B5 /* ISContactCardVC.m */; };
+		3E9172A714F84AFD00F9609D /* ISContactManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9172A614F84AFD00F9609D /* ISContactManager.m */; };
 		3E9A375614DCB377007B6DD7 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9A375414DCB350007B6DD7 /* MobileCoreServices.framework */; };
 		3E9A376514DCBAC7007B6DD7 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9A376014DCBAC7007B6DD7 /* UIImage+Alpha.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3E9A376614DCBAC7007B6DD7 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9A376214DCBAC7007B6DD7 /* UIImage+Resize.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -191,6 +192,8 @@
 		3E8E300B14EB381A008F08B5 /* handmadepaper@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "handmadepaper@2x.png"; path = "resources/handmadepaper@2x.png"; sourceTree = SOURCE_ROOT; };
 		3E8E301414EB3CBF008F08B5 /* ISContactCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISContactCardVC.h; path = swyp/ISContactCardVC.h; sourceTree = "<group>"; };
 		3E8E301514EB3CC0008F08B5 /* ISContactCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISContactCardVC.m; path = swyp/ISContactCardVC.m; sourceTree = "<group>"; };
+		3E9172A514F84AFD00F9609D /* ISContactManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISContactManager.h; path = swyp/ISContactManager.h; sourceTree = "<group>"; };
+		3E9172A614F84AFD00F9609D /* ISContactManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISContactManager.m; path = swyp/ISContactManager.m; sourceTree = "<group>"; };
 		3E9A375414DCB350007B6DD7 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		3E9A375F14DCBAC7007B6DD7 /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
 		3E9A376014DCBAC7007B6DD7 /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
@@ -369,6 +372,8 @@
 			children = (
 				3E8E301414EB3CBF008F08B5 /* ISContactCardVC.h */,
 				3E8E301514EB3CC0008F08B5 /* ISContactCardVC.m */,
+				3E9172A514F84AFD00F9609D /* ISContactManager.h */,
+				3E9172A614F84AFD00F9609D /* ISContactManager.m */,
 				3E06EB4414DC8A3300BA055D /* ISPasteboardVC.h */,
 				3E06EB4514DC8A3300BA055D /* ISPasteboardVC.m */,
 				3E2B4F8B14E583890090D948 /* ISPasteboardView.h */,
@@ -928,6 +933,7 @@
 				7959A62A14F2D77A00020F6B /* ISRenderVC.m in Sources */,
 				7959A62D14F2D79500020F6B /* ISCalendarDayRenderVC.m in Sources */,
 				3E8E301614EB3CC2008F08B5 /* ISContactCardVC.m in Sources */,
+				3E9172A714F84AFD00F9609D /* ISContactManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  ISContactView.m
+//  ISContactCardVC.m
 //  swyp
 //
 //  Created by Ethan Sherbondy on 2/14/12.
@@ -27,19 +27,28 @@ static const NSInteger PICTURE_SIDE = 56;
 @synthesize tableView = _tableView;
 @synthesize faceButton = _faceButton;
 @synthesize editButton = _editButton;
+@synthesize contactInfo = _contactInfo;
 
 - (id)init {
     self = [super init];
     if (self){
-        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:@"Name"];
-        NSString *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"Number"];
-        NSString *email = [[NSUserDefaults standardUserDefaults] objectForKey:@"Email"];
+        NSMutableDictionary *contactInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                            [[NSUserDefaults standardUserDefaults] objectForKey:@"Name"], @"Name",
+                            [[NSUserDefaults standardUserDefaults] objectForKey:@"Number"], @"Number",
+                            [[NSUserDefaults standardUserDefaults] objectForKey:@"Email"], @"Email", nil];
+        
+        UIImage *faceImage = [UIImage imageWithContentsOfFile:[self documentsPathForFileName:@"face.png"]];
+        if (faceImage) [contactInfo setObject:faceImage forKey:@"Image"];
+        self.contactInfo = contactInfo;
         
         NSArray* tableContents =
         [NSArray arrayWithObjects:
-         [NITextInputFormElement textInputElementWithID:kNameField placeholderText:@"Name" value:name delegate:self],
-         [NITextInputFormElement textInputElementWithID:kNumberField placeholderText:@"Phone Number" value:number delegate:self],
-         [NITextInputFormElement textInputElementWithID:kEmailField placeholderText:@"Email" value:email delegate:self],
+         [NITextInputFormElement textInputElementWithID:kNameField placeholderText:LocStr(@"Name",nil) 
+                                                  value:[self.contactInfo objectForKey:@"Name"] delegate:self],
+         [NITextInputFormElement textInputElementWithID:kNumberField placeholderText:LocStr(@"Phone Number",nil) 
+                                                  value:[self.contactInfo objectForKey:@"Number"] delegate:self],
+         [NITextInputFormElement textInputElementWithID:kEmailField placeholderText:LocStr(@"Email",nil) 
+                                                  value:[self.contactInfo objectForKey:@"Email"] delegate:self],
          nil];
         
         _model = [[NITableViewModel alloc] initWithSectionedArray:tableContents
@@ -62,6 +71,10 @@ static const NSInteger PICTURE_SIDE = 56;
     layer.shadowColor = [UIColor whiteColor].CGColor;
     layer.shadowOffset = CGSizeMake(0, 20);
     layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+    
+    UIGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(triggerSwypContactInfo:)];
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureRecognizer];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(72, 0, 300-72, 176) style:UITableViewStylePlain];
     self.tableView.clipsToBounds = YES;
@@ -93,7 +106,9 @@ static const NSInteger PICTURE_SIDE = 56;
     
     _imagePickerController = [[UIImagePickerController alloc] init];
     _imagePickerController.delegate = self;
-    _imagePickerController.allowsImageEditing = YES;
+    _imagePickerController.allowsEditing = YES;
+    
+    _contactManager = [[ISContactManager alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tappedOutside:) name:@"tappedOutside" object:NULL];
 }
@@ -112,7 +127,7 @@ static const NSInteger PICTURE_SIDE = 56;
     [self.editButton setBackgroundImage:stretchedButtonImage forState:UIControlStateNormal];
     [self.editButton setBackgroundImage:stretchedPressedButtonImage forState:UIControlStateHighlighted];
     
-    UIImage *faceImage = [UIImage imageWithContentsOfFile:[self documentsPathForFileName:@"face.png"]];
+    UIImage *faceImage = [self.contactInfo objectForKey:@"Image"];
     if (faceImage){
         [self.faceButton setImage:faceImage forState:UIControlStateNormal];
     }
@@ -132,13 +147,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (NSString *)nameForTag:(NSInteger)tag{
     switch (tag) {
         case 0:
-            return LocStr(@"Name", @"The person's name");
+            return @"Name";
             break;
         case 1:
-            return LocStr(@"Number", @"Phone number");
+            return @"Number";
             break;
         case 2:
-            return LocStr(@"Email", @"Email address");
+            return @"Email";
             break;
     }
     return nil;
@@ -159,7 +174,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         case 1:
             _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             break;
-            
         default:
             break;
     }
@@ -176,7 +190,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         didFinishPickingImage:(UIImage *)image 
                   editingInfo:(NSDictionary *)editingInfo {
     // Do something with the image here.
-    UIImage *resizedImage = [image thumbnailImage:PICTURE_SIDE 
+    UIImage *resizedImage = [image thumbnailImage:PICTURE_SIDE
                                 transparentBorder:0 
                                      cornerRadius:8 
                              interpolationQuality:1];
@@ -248,6 +262,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [[NSUserDefaults standardUserDefaults] 
      setObject:textField.text forKey:[self nameForTag:textField.tag]];
+    [self.contactInfo setValue:textField.text forKey:[self nameForTag:textField.tag]];
 }
 
 #pragma mark- Other Functions
@@ -267,7 +282,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
 }
 
-- (void)toggleEditing{
+- (void)toggleEditing {
     _isEditing = !_isEditing;
     if (_isEditing){        
         [self.editButton setTitle:LocStr(@"Done", @"Done editing contact info") forState:UIControlStateNormal];
@@ -302,10 +317,28 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
 }
 
+- (void)triggerSwypContactInfo:(UITapGestureRecognizer *)recognizer {
+    CGPoint faceLocation = [recognizer locationInView:self.view];
+    CGPoint editLocation = [recognizer locationInView:self.view];
+    if (!_isEditing && !CGRectContainsPoint(self.faceButton.frame, faceLocation)
+                    && !CGRectContainsPoint(self.editButton.frame, editLocation)){
+        NSLog(@"Time to swyp my info.");
+        self.editButton.hidden = YES; // don't want edit button in thumbnail
+        
+        UIGraphicsBeginImageContext(self.view.bounds.size);
+        [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage *thumbnailImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        self.editButton.hidden = NO;
+        
+        [_contactManager showWorkspaceWithContactInfo:self.contactInfo andViewImage:thumbnailImage];
+    }
+}
+
 - (NSString *)documentsPathForFileName:(NSString *)name {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);  
     NSString *documentsPath = [paths objectAtIndex:0];
-    
     return [documentsPath stringByAppendingPathComponent:name]; 
 }
 

@@ -45,10 +45,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
-        CGFloat ty = self.view.origin.y - contactCard.view.origin.y + 
-                    (self.view.height-contactCard.view.height)/2 - 48;
-        contactCard.view.transform = CGAffineTransformTranslate(contactCard.view.transform, 0, ty);
-    }completion:^(BOOL finished){
+        CGFloat ty = self.view.origin.y - _contactCard.view.origin.y + 
+                    (self.view.height-_contactCard.view.height)/2 - 48;
+        _contactCard.view.transform = CGAffineTransformTranslate(_contactCard.view.transform, 0, ty);
+    } completion:^(BOOL finished){
         
     }];
 }
@@ -57,8 +57,8 @@
     [super viewWillDisappear:animated];
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
         CGFloat ty = self.view.size.height;
-        contactCard.view.transform = CGAffineTransformTranslate(contactCard.view.transform, 0, ty);
-    }completion:^(BOOL finished){
+        _contactCard.view.transform = CGAffineTransformTranslate(_contactCard.view.transform, 0, ty);
+    } completion:^(BOOL finished){
         
     }];
 }
@@ -67,11 +67,11 @@
 {
     [super viewDidLoad];
     
-    contactCard = [[ISContactCardVC alloc] init];
-    [self addChildViewController:contactCard];
+    _contactCard = [[ISContactCardVC alloc] init];
+    [self addChildViewController:_contactCard];
     
-    contactCard.view.origin = CGPointMake((self.view.width - 300)/2, self.view.size.height);
-    [self.view addSubview:contactCard.view];
+    _contactCard.view.origin = CGPointMake((self.view.width - 300)/2, self.view.size.height);
+    [self.view addSubview:_contactCard.view];
 }
 
 - (void)viewDidUnload

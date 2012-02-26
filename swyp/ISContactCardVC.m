@@ -43,7 +43,7 @@ static const NSInteger PICTURE_SIDE = 56;
                             [[NSUserDefaults standardUserDefaults] objectForKey:@"Number"], @"Number",
                             [[NSUserDefaults standardUserDefaults] objectForKey:@"Email"], @"Email", nil];
         
-        NSData *imageData = [NSData dataWithContentsOfFile:[self documentsPathForFileName:@"face.png"]];
+        NSData *imageData = [NSData dataWithContentsOfFile:[self _documentsPathForFileName:@"face.png"]];
         if (imageData){
             NSString *base64Image = [imageData base64EncodedString];
             [contactInfo setObject:base64Image forKey:@"Image"];
@@ -147,9 +147,9 @@ static const NSInteger PICTURE_SIDE = 56;
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell 
 forRowAtIndexPath:(NSIndexPath *)indexPath {
     // Customize the presentation of certain types of cells.
-    if ([cell isKindOfClass:[NITextInputFormElementCell class]]) {
-        NITextInputFormElementCell* textInputCell = (NITextInputFormElementCell *)cell;
-    }
+//    if ([cell isKindOfClass:[NITextInputFormElementCell class]]) {
+//        NITextInputFormElementCell* textInputCell = (NITextInputFormElementCell *)cell;
+//    }
 }
 
 - (NSString *)nameForTag:(NSInteger)tag{
@@ -209,7 +209,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
                                           interpolationQuality:1];
     
     NSData *faceImageData = UIImagePNGRepresentation(resizedImage);
-    NSString *filePath = [self documentsPathForFileName:@"face.png"]; //Add the file name
+    NSString *filePath = [self _documentsPathForFileName:@"face.png"]; //Add the file name
     [faceImageData writeToFile:filePath atomically:YES];
     
     [self.contactInfo setValue:[faceImageData base64EncodedString] forKey:@"Image"];
@@ -249,7 +249,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         return NO;
     } else {
         // last field, end editing.
-        [self toggleEditing];
+        [self _toggleEditing];
     }
     _activeField = nil;
     return YES;
@@ -298,7 +298,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
 }
 
-- (void)toggleEditing {
+- (void)	_toggleEditing {
     _isEditing = !_isEditing;
     if (_isEditing){        
         [self.editButton setTitle:LocStr(@"Done", @"Done editing contact info") forState:UIControlStateNormal];
@@ -312,7 +312,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)showPhotoSelectorActionSheet {
-    if (_isEditing) [self toggleEditing];
+    if (_isEditing) [self _toggleEditing];
 
     // @TODO: Need to modify action sheet based on whether the device has a camera.
     UIActionSheet *photoSelectorSheet = [[UIActionSheet alloc] init];
@@ -352,7 +352,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
 }
 
-- (NSString *)documentsPathForFileName:(NSString *)name {
+- (NSString *)	_documentsPathForFileName:(NSString *)name {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);  
     NSString *documentsPath = [paths objectAtIndex:0];
     return [documentsPath stringByAppendingPathComponent:name]; 

@@ -81,7 +81,7 @@
 		
 		_objectContext	=	context;
 		_swypWorkspace	=	workspace;
-		[_swypWorkspace setContentDataSource:self];
+		[_swypWorkspace addDataDelegate:self];
 	}
 	return self;
 }
@@ -92,6 +92,10 @@
 
 -(void) viewWillUnload{
 	[_swypWorkspace removeEmbeddableSwypWorkspaceView:_swypDropZoneView];
+}
+
+-(void) dealloc{
+	[_swypWorkspace removeDataDelegate:self];
 }
 
 - (void)viewDidLoad{

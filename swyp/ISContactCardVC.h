@@ -11,7 +11,7 @@
 #import "ISContactManager.h"
 
 @interface ISContactCardVC : UIViewController <UITextFieldDelegate, 
-UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate> {
+UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     NITableViewModel*           _model;
     UITextField*                _activeField;
     UIImagePickerController*    _imagePickerController;
@@ -24,5 +24,6 @@ UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate> {
 @property (nonatomic, strong) NSDictionary *contactInfo;
 
 - (UIViewController *)_rootVC;
-
+- (NSString *)	_documentsPathForFileName:(NSString *)name;
+- (void)	_toggleEditing;
 @end

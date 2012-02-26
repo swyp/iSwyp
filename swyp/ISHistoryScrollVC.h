@@ -13,7 +13,7 @@
 #import "ISPreviewVC.h"
 
 ///The view that shows a swyp workspace drop-zone in the header, and the history of all swyp-received content below
-@interface ISHistoryScrollVC : UIViewController <UITableViewDelegate, NSFetchedResultsControllerDelegate,swypContentDataSourceProtocol,swypConnectionSessionDataDelegate>{
+@interface ISHistoryScrollVC : UIViewController <UITableViewDelegate, NSFetchedResultsControllerDelegate,swypContentDataSourceProtocol,swypConnectionSessionDataDelegate> {
 	
 	NSManagedObjectContext *		_objectContext;
 	swypWorkspaceViewController *	_swypWorkspace;

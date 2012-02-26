@@ -11,6 +11,7 @@
 #import "ISHistoryCell.h"
 #import "UIWindow+ISUXAddons.h"
 #import "UIApplication+ISApplicationAddtions.h"
+#import "NSData+Base64.h"
 
 @implementation ISSwypHistoryItem
 
@@ -113,10 +114,15 @@
         NSArray *nameArray = [[personDict objectForKey:@"Name"] 
                               componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         
-        NSLog(@"%@", [personDict description]);
-        CFErrorRef error = NULL; 
-
+        CFErrorRef error = NULL;
+                
         ABRecordRef newPerson = ABPersonCreate();
+        
+        NSData *imageData = [NSData dataWithBase64String:[personDict objectForKey:@"Image"]];
+        if (imageData){
+            ABPersonSetImageData(newPerson, (__bridge CFDataRef)imageData, &error);
+        }
+        
         ABRecordSetValue(newPerson, kABPersonFirstNameProperty, (__bridge CFStringRef)[nameArray objectAtIndex:0], &error);
         if (nameArray.count > 2){
             ABRecordSetValue(newPerson, kABPersonMiddleNameProperty, (__bridge CFStringRef)[nameArray objectAtIndex:1], &error);
@@ -124,23 +130,35 @@
         if (nameArray.count > 1){
             ABRecordSetValue(newPerson, kABPersonLastNameProperty, (__bridge CFStringRef)[nameArray objectAtIndex:(nameArray.count-1)], &error);
         }
-        ABRecordSetValue(newPerson, kABPersonPhoneProperty, (__bridge CFStringRef)[personDict objectForKey:@"Number"], &error);
-        ABRecordSetValue(newPerson, kABPersonEmailProperty, (__bridge CFStringRef)[personDict objectForKey:@"Email"], &error);
 
-        ABNewPersonViewController *personVC = [[ABNewPersonViewController alloc] init];
-        personVC.newPersonViewDelegate = self;
-        [personVC setDisplayedPerson:newPerson];
+        if ([personDict objectForKey:@"Number"]){
+            ABMutableMultiValueRef multiPhone = ABMultiValueCreateMutable(kABPersonEmailProperty);
+            ABMultiValueAddValueAndLabel(multiPhone, (__bridge CFStringRef)[personDict objectForKey:@"Number"], kABPersonPhoneMainLabel, NULL);
+            ABRecordSetValue(newPerson, kABPersonPhoneProperty, multiPhone, &error);
+            CFRelease(multiPhone);
+        }
         
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:personVC];
-        [[UIApplication rootVC] presentModalViewController:navController animated:YES];
-        
-        CFRelease(newPerson);
+        if ([personDict objectForKey:@"Email"]){
+            ABMutableMultiValueRef multiEmail = ABMultiValueCreateMutable(kABPersonEmailProperty);
+            ABMultiValueAddValueAndLabel(multiEmail, (__bridge CFStringRef)[personDict objectForKey:@"Email"], (__bridge CFStringRef)@"email", NULL);
+            ABRecordSetValue(newPerson, kABPersonEmailProperty, multiEmail, &error);
+            CFRelease(multiEmail);
+        }
         
         if (error != NULL){
             CFStringRef errorDesc = CFErrorCopyDescription(error);
             NSLog(@"Contact not saved: %@", errorDesc);
             CFRelease(errorDesc);
         }
+        
+        ABNewPersonViewController *personVC = [[ABNewPersonViewController alloc] init];
+        personVC.newPersonViewDelegate = self;
+        [personVC setDisplayedPerson:newPerson];
+        
+        CFRelease(newPerson);
+        
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:personVC];
+        [[UIApplication rootVC] presentModalViewController:navController animated:YES];
         
 	} else if (exportAction == swypHistoryItemExportActionSaveToCalendar){
 		//save to calendar and display calendar

@@ -11,6 +11,8 @@
 
 @implementation ISContactVC
 
+@synthesize childViewController = _childViewController;
+
 +(UITabBarItem*)tabBarItem{
 	return [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Contact", @"Your contact card on tab bar.") image:[UIImage imageNamed:@"user"] tag:0];
 }
@@ -43,10 +45,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
-        CGFloat ty = self.view.origin.y - contactCard.view.origin.y + 
-                    (self.view.height-contactCard.view.height)/2;
-        contactCard.view.transform = CGAffineTransformTranslate(contactCard.view.transform, 0, ty);
-    }completion:^(BOOL finished){
+        CGFloat ty = self.view.origin.y - _contactCard.view.origin.y + 
+                    (self.view.height-_contactCard.view.height)/2 - 48;
+        _contactCard.view.transform = CGAffineTransformTranslate(_contactCard.view.transform, 0, ty);
+    } completion:^(BOOL finished){
         
     }];
 }
@@ -55,8 +57,8 @@
     [super viewWillDisappear:animated];
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
         CGFloat ty = self.view.size.height;
-        contactCard.view.transform = CGAffineTransformTranslate(contactCard.view.transform, 0, ty);
-    }completion:^(BOOL finished){
+        _contactCard.view.transform = CGAffineTransformTranslate(_contactCard.view.transform, 0, ty);
+    } completion:^(BOOL finished){
         
     }];
 }
@@ -65,9 +67,11 @@
 {
     [super viewDidLoad];
     
-    contactCard = [[ISContactCardVC alloc] init];
-    contactCard.view.origin = CGPointMake((self.view.width - 300)/2, self.view.size.height);
-    [self.view addSubview:contactCard.view];
+    _contactCard = [[ISContactCardVC alloc] init];
+    [self addChildViewController:_contactCard];
+    
+    _contactCard.view.origin = CGPointMake((self.view.width - 300)/2, self.view.size.height);
+    [self.view addSubview:_contactCard.view];
 }
 
 - (void)viewDidUnload
@@ -81,6 +85,11 @@
 {
     // Return YES for supported orientations
 	return YES;
+}
+
+- (void)addChildViewController:(UIViewController *)childController {
+    [super addChildViewController:childController];
+    self.childViewController = childController;
 }
 
 @end

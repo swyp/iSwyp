@@ -80,14 +80,14 @@
 
 #pragma mark - delegation
 #pragma mark <swypContentDataSourceProtocol, swypConnectionSessionDataDelegate>
-- (NSArray*)	idsForAllContent{
+- (NSArray*)idsForAllContent {
 	return [NSArray arrayWithObject:@"PREVIEW_DISPLAYED_ITEM"];
 }
-- (UIImage *)	iconImageForContentWithID: (NSString*)contentID ofMaxSize:(CGSize)maxIconSize{	
+- (UIImage *)iconImageForContentWithID:(NSString*)contentID ofMaxSize:(CGSize)maxIconSize {	
 	return [self.delegate getThumbnail];
 }
 
-- (NSArray*)		supportedFileTypesForContentWithID: (NSString*)contentID{
+- (NSArray*)supportedFileTypesForContentWithID:(NSString*)contentID {
 	return [NSArray arrayWithObjects:self.itemType,
                                      [NSString imageJPEGFileType],
                                      [NSString imagePNGFileType], nil];
@@ -115,10 +115,8 @@
 		EXOLog(@"No data coverage for content type %@ of ID %@", type,contentID);
 	}
 	
-	
 	return sendData;
 }
-
 
 
 -(void)	setDatasourceDelegate:			(id<swypContentDataSourceDelegate>)theDelegate{

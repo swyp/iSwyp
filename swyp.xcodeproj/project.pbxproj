@@ -23,6 +23,7 @@
 		3E2B4F9314E5CA620090D948 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E2B4F9114E5CA520090D948 /* AssetsLibrary.framework */; };
 		3E8E300C14EB381A008F08B5 /* handmadepaper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E8E300B14EB381A008F08B5 /* handmadepaper@2x.png */; };
 		3E8E301614EB3CC2008F08B5 /* ISContactCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E301514EB3CC0008F08B5 /* ISContactCardVC.m */; };
+		3E9172A714F84AFD00F9609D /* ISContactManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9172A614F84AFD00F9609D /* ISContactManager.m */; };
 		3E9A375614DCB377007B6DD7 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9A375414DCB350007B6DD7 /* MobileCoreServices.framework */; };
 		3E9A376514DCBAC7007B6DD7 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9A376014DCBAC7007B6DD7 /* UIImage+Alpha.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3E9A376614DCBAC7007B6DD7 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9A376214DCBAC7007B6DD7 /* UIImage+Resize.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -30,6 +31,10 @@
 		3E9A376D14DCC0EB007B6DD7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9A376B14DCC0E3007B6DD7 /* CoreLocation.framework */; };
 		3EC3F0AA14DD8BD100BAFD1A /* ISDoodleRecognizingGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3F0A914DD8BD100BAFD1A /* ISDoodleRecognizingGestureRecognizer.m */; };
 		3EC3F0C014DD9B3600BAFD1A /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3F0BF14DD9B3600BAFD1A /* NSString+URLEncoding.m */; };
+		3ED275BF14F70087008D78BD /* FlatButtonSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED275BB14F70087008D78BD /* FlatButtonSmall.png */; };
+		3ED275C014F70087008D78BD /* FlatButtonSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED275BC14F70087008D78BD /* FlatButtonSmall@2x.png */; };
+		3ED275C114F70087008D78BD /* FlatButtonSmallPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED275BD14F70087008D78BD /* FlatButtonSmallPressed.png */; };
+		3ED275C214F70087008D78BD /* FlatButtonSmallPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED275BE14F70087008D78BD /* FlatButtonSmallPressed@2x.png */; };
 		7932E64D14DDD74400E1A017 /* NICellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7932E64514DDD74400E1A017 /* NICellFactory.m */; };
 		7932E64E14DDD74400E1A017 /* NIFormCellCatalog.m in Sources */ = {isa = PBXBuildFile; fileRef = 7932E64714DDD74400E1A017 /* NIFormCellCatalog.m */; };
 		7932E64F14DDD74400E1A017 /* NITableViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7932E64B14DDD74400E1A017 /* NITableViewModel.m */; };
@@ -188,6 +193,8 @@
 		3E8E300B14EB381A008F08B5 /* handmadepaper@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "handmadepaper@2x.png"; path = "resources/handmadepaper@2x.png"; sourceTree = SOURCE_ROOT; };
 		3E8E301414EB3CBF008F08B5 /* ISContactCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISContactCardVC.h; path = swyp/ISContactCardVC.h; sourceTree = "<group>"; };
 		3E8E301514EB3CC0008F08B5 /* ISContactCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISContactCardVC.m; path = swyp/ISContactCardVC.m; sourceTree = "<group>"; };
+		3E9172A514F84AFD00F9609D /* ISContactManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISContactManager.h; path = swyp/ISContactManager.h; sourceTree = "<group>"; };
+		3E9172A614F84AFD00F9609D /* ISContactManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISContactManager.m; path = swyp/ISContactManager.m; sourceTree = "<group>"; };
 		3E9A375414DCB350007B6DD7 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		3E9A375F14DCBAC7007B6DD7 /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
 		3E9A376014DCBAC7007B6DD7 /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
@@ -200,6 +207,10 @@
 		3EC3F0A914DD8BD100BAFD1A /* ISDoodleRecognizingGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISDoodleRecognizingGestureRecognizer.m; path = swyp/ISDoodleRecognizingGestureRecognizer.m; sourceTree = "<group>"; };
 		3EC3F0BE14DD9B3600BAFD1A /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URLEncoding.h"; path = "NSString Additions/NSString+URLEncoding.h"; sourceTree = "<group>"; };
 		3EC3F0BF14DD9B3600BAFD1A /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+URLEncoding.m"; path = "NSString Additions/NSString+URLEncoding.m"; sourceTree = "<group>"; };
+		3ED275BB14F70087008D78BD /* FlatButtonSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FlatButtonSmall.png; path = resources/FlatButtonSmall.png; sourceTree = SOURCE_ROOT; };
+		3ED275BC14F70087008D78BD /* FlatButtonSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FlatButtonSmall@2x.png"; path = "resources/FlatButtonSmall@2x.png"; sourceTree = SOURCE_ROOT; };
+		3ED275BD14F70087008D78BD /* FlatButtonSmallPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FlatButtonSmallPressed.png; path = resources/FlatButtonSmallPressed.png; sourceTree = SOURCE_ROOT; };
+		3ED275BE14F70087008D78BD /* FlatButtonSmallPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FlatButtonSmallPressed@2x.png"; path = "resources/FlatButtonSmallPressed@2x.png"; sourceTree = SOURCE_ROOT; };
 		7932E64414DDD74400E1A017 /* NICellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NICellFactory.h; path = nimbus/src/models/src/NICellFactory.h; sourceTree = SOURCE_ROOT; };
 		7932E64514DDD74400E1A017 /* NICellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NICellFactory.m; path = nimbus/src/models/src/NICellFactory.m; sourceTree = SOURCE_ROOT; };
 		7932E64614DDD74400E1A017 /* NIFormCellCatalog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIFormCellCatalog.h; path = nimbus/src/models/src/NIFormCellCatalog.h; sourceTree = SOURCE_ROOT; };
@@ -364,6 +375,8 @@
 			children = (
 				3E8E301414EB3CBF008F08B5 /* ISContactCardVC.h */,
 				3E8E301514EB3CC0008F08B5 /* ISContactCardVC.m */,
+				3E9172A514F84AFD00F9609D /* ISContactManager.h */,
+				3E9172A614F84AFD00F9609D /* ISContactManager.m */,
 				3E06EB4414DC8A3300BA055D /* ISPasteboardVC.h */,
 				3E06EB4514DC8A3300BA055D /* ISPasteboardVC.m */,
 				3E2B4F8B14E583890090D948 /* ISPasteboardView.h */,
@@ -594,6 +607,10 @@
 		7962726D14DC818A00E5D17A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3ED275BB14F70087008D78BD /* FlatButtonSmall.png */,
+				3ED275BC14F70087008D78BD /* FlatButtonSmall@2x.png */,
+				3ED275BD14F70087008D78BD /* FlatButtonSmallPressed.png */,
+				3ED275BE14F70087008D78BD /* FlatButtonSmallPressed@2x.png */,
 				3E8E300B14EB381A008F08B5 /* handmadepaper@2x.png */,
 				7959A55814E7729100020F6B /* Kal.bundle */,
 				79527C7414E0CE7B003002AF /* App Icons */,
@@ -747,7 +764,7 @@
 		796271C414DC788200E5D17A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = ExoMachina;
 			};
 			buildConfigurationList = 796271C714DC788200E5D17A /* Build configuration list for PBXProject "swyp" */;
@@ -827,6 +844,10 @@
 				79527CBA14E46FB4003002AF /* previewVCActionButtonsBGTile.png in Resources */,
 				7959A55914E7729100020F6B /* Kal.bundle in Resources */,
 				3E8E300C14EB381A008F08B5 /* handmadepaper@2x.png in Resources */,
+				3ED275BF14F70087008D78BD /* FlatButtonSmall.png in Resources */,
+				3ED275C014F70087008D78BD /* FlatButtonSmall@2x.png in Resources */,
+				3ED275C114F70087008D78BD /* FlatButtonSmallPressed.png in Resources */,
+				3ED275C214F70087008D78BD /* FlatButtonSmallPressed@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -918,6 +939,7 @@
 				7959A62D14F2D79500020F6B /* ISCalendarDayRenderVC.m in Sources */,
 				3E8E301614EB3CC2008F08B5 /* ISContactCardVC.m in Sources */,
 				79CE219114F5A03E00930A78 /* ISCalendarEventRenderVC.m in Sources */,
+				3E9172A714F84AFD00F9609D /* ISContactManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

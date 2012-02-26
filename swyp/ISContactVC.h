@@ -11,7 +11,9 @@
 #import "ISContactCardVC.h"
 
 @interface ISContactVC : ISTabVC {
-    ISContactCardVC *contactCard;
+    ISContactCardVC *_contactCard;
 }
+
+@property (nonatomic, assign) UIViewController *childViewController;
 
 @end

@@ -154,7 +154,9 @@
             
             NSDataDetector *addressDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeAddress error:NULL];
             
-            NSTextCheckingResult *match = [addressDetector firstMatchInString:pasteBoard.string options:0 range:NSMakeRange(0, pasteBoard.string.length)];
+            NSTextCheckingResult *match = [addressDetector firstMatchInString:pasteBoard.string 
+                                                                      options:0 
+                                                                        range:NSMakeRange(0, pasteBoard.string.length)];
             
             ISPasteboardObject *pbItem = [[ISPasteboardObject alloc] init];
 
@@ -178,8 +180,7 @@
     pageControl.currentPage = round(scrollView.contentOffset.x/PBWIDTH);
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
 	return YES;
 }

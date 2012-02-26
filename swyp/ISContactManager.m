@@ -24,7 +24,7 @@
 }
 
 - (void)showWorkspaceWithContactInfo:(NSDictionary *)theInfo andViewImage:(UIImage *)theImage {
-    self.contactInfo = theInfo;
+    self.contactInfo = [theInfo jsonStringValue];
     self.thumbnailImage = theImage;
 
     [[self datasourceDelegate] datasourceSignificantlyModifiedContent:self];
@@ -53,8 +53,8 @@
 - (NSData*)	dataForContentWithID:(NSString *)contentID fileType:(swypFileTypeString *)type{
 	NSData *	sendData	=	nil;	
 	
-	if (type == [NSString swypContactFileType]){
-        sendData = [NSKeyedArchiver archivedDataWithRootObject:self.contactInfo];
+	if ([type isFileType:[NSString swypContactFileType]]){
+        sendData = [self.contactInfo dataUsingEncoding:NSUTF8StringEncoding];
 	} else if ([type isFileType:[NSString imagePNGFileType]]){
         sendData	=	UIImagePNGRepresentation(self.thumbnailImage);
 	} else if ([type isFileType:[NSString imageJPEGFileType]]){
@@ -62,6 +62,8 @@
 	} else{
 		EXOLog(@"No data coverage for content type %@ of ID %@", type,contentID);
 	}
+    
+    EXOLog(@"Sending data");
 	
 	return sendData;
 }

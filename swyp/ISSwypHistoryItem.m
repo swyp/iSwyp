@@ -6,9 +6,11 @@
 //  Copyright (c) 2012 ExoMachina. All rights reserved.
 //
 
+#import <AddressBook/AddressBook.h>
 #import "ISSwypHistoryItem.h"
 #import "ISHistoryCell.h"
 #import "UIWindow+ISUXAddons.h"
+#import "UIApplication+ISApplicationAddtions.h"
 
 @implementation ISSwypHistoryItem
 
@@ -106,9 +108,43 @@
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlToOpen]];
 	}else if (exportAction == swypHistoryItemExportActionSaveToContacts){
 		//save to contacts and display
-	}else if (exportAction == swypHistoryItemExportActionSaveToCalendar){
+        
+        NSDictionary *personDict = [self itemDataDictionaryRep];
+        NSArray *nameArray = [[personDict objectForKey:@"Name"] 
+                              componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        NSLog(@"%@", [personDict description]);
+        CFErrorRef error = NULL; 
+
+        ABRecordRef newPerson = ABPersonCreate();
+        ABRecordSetValue(newPerson, kABPersonFirstNameProperty, (__bridge CFStringRef)[nameArray objectAtIndex:0], &error);
+        if (nameArray.count > 2){
+            ABRecordSetValue(newPerson, kABPersonMiddleNameProperty, (__bridge CFStringRef)[nameArray objectAtIndex:1], &error);
+        }
+        if (nameArray.count > 1){
+            ABRecordSetValue(newPerson, kABPersonLastNameProperty, (__bridge CFStringRef)[nameArray objectAtIndex:(nameArray.count-1)], &error);
+        }
+        ABRecordSetValue(newPerson, kABPersonPhoneProperty, (__bridge CFStringRef)[personDict objectForKey:@"Number"], &error);
+        ABRecordSetValue(newPerson, kABPersonEmailProperty, (__bridge CFStringRef)[personDict objectForKey:@"Email"], &error);
+
+        ABNewPersonViewController *personVC = [[ABNewPersonViewController alloc] init];
+        personVC.newPersonViewDelegate = self;
+        [personVC setDisplayedPerson:newPerson];
+        
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:personVC];
+        [[UIApplication rootVC] presentModalViewController:navController animated:YES];
+        
+        CFRelease(newPerson);
+        
+        if (error != NULL){
+            CFStringRef errorDesc = CFErrorCopyDescription(error);
+            NSLog(@"Contact not saved: %@", errorDesc);
+            CFRelease(errorDesc);
+        }
+        
+	} else if (exportAction == swypHistoryItemExportActionSaveToCalendar){
 		//save to calendar and display calendar
-	}else if (exportAction == swypHistoryItemExportActionSaveToPhotoRoll){
+	} else if (exportAction == swypHistoryItemExportActionSaveToPhotoRoll){
 		UIImageWriteToSavedPhotosAlbum([self biggestImageAvailable], nil, nil, nil);
 		[[[UIApplication sharedApplication] keyWindow] flashWindow];
 	}
@@ -150,7 +186,7 @@
 	return largestImage;
 }
 
--(NSDictionary*) itemDataDictionaryRep{
+-(NSDictionary*) itemDataDictionaryRep {
 	NSDictionary * parsedDict	=	nil;
 	if ([[self itemType] isFileType:[NSString swypAddressFileType]]){
 		NSString *	readString	=	[[NSString alloc]  initWithBytes:[[self itemData] bytes] length:[[self itemData] length] encoding: NSUTF8StringEncoding];
@@ -158,10 +194,16 @@
 			parsedDict				=	[NSDictionary dictionaryWithJSONString:readString];
 		}
 	} else if ([[self itemType] isFileType:[NSString swypContactFileType]]){
-        parsedDict = [NSKeyedUnarchiver unarchiveObjectWithData:[self itemType]];
+        parsedDict = [NSDictionary dictionaryWithJSONString:[NSString stringWithUTF8String:[self itemData].bytes]];
     }
 	
 	return parsedDict;
+}
+
+#pragma mark <ABNewPersonViewControllerDelegate>
+
+- (void)newPersonViewController:(ABNewPersonViewController *)newPersonView didCompleteWithNewPerson:(ABRecordRef)person {
+    [[UIApplication rootVC] dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark - delegation

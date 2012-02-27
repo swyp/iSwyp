@@ -52,9 +52,9 @@
 }
 
 - (NSData *)itemData {
-    if (self.itemType == [NSString textPlainFileType]){
+    if ([self.itemType isFileType:[NSString textPlainFileType]]){
         return [self.text dataUsingEncoding:NSUTF8StringEncoding];
-    } else if (self.itemType == [NSString swypAddressFileType]){
+    } else if ([self.itemType isFileType:[NSString swypAddressFileType]]){
         NSDictionary *theData = [NSDictionary dictionaryWithObjectsAndKeys:
                                  self.address, @"address", 
                                  [self.delegate getThumbnail], @"thumbnail", nil];

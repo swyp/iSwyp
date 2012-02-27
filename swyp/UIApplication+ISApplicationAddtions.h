@@ -11,4 +11,5 @@
 @interface UIApplication (ISApplicationAddtions)
 -(NSNumber*)appRunCount;
 -(void)incrementRunCount;
++(UIViewController *)rootVC;
 @end

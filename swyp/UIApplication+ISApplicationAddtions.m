@@ -18,5 +18,8 @@
 	NSUserDefaults *userDefaults = [NSUserDefaults new];
 	[userDefaults setInteger:[[self appRunCount] intValue] +1 forKey:@"totalApplicationRuns"];
 }
++ (UIViewController *)rootVC {
+    return [[[UIApplication sharedApplication] keyWindow] rootViewController];
+}
 
 @end

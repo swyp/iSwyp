@@ -21,6 +21,9 @@
 		3E2B4F8D14E583890090D948 /* ISPasteboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E2B4F8C14E583890090D948 /* ISPasteboardView.m */; };
 		3E2B4F9014E58E530090D948 /* ISPasteboardObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E2B4F8F14E58E520090D948 /* ISPasteboardObject.m */; };
 		3E2B4F9314E5CA620090D948 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E2B4F9114E5CA520090D948 /* AssetsLibrary.framework */; };
+		3E3BF4C714F9C6D70089A9E7 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E3BF4C514F9C6C80089A9E7 /* AddressBook.framework */; };
+		3E3BF4C914F9C7F80089A9E7 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E3BF4C814F9C7F80089A9E7 /* AddressBookUI.framework */; };
+		3E6B180614F9BCCC0003AC17 /* grippers@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E6B180514F9BCCC0003AC17 /* grippers@2x.png */; };
 		3E8E300C14EB381A008F08B5 /* handmadepaper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E8E300B14EB381A008F08B5 /* handmadepaper@2x.png */; };
 		3E8E301614EB3CC2008F08B5 /* ISContactCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E8E301514EB3CC0008F08B5 /* ISContactCardVC.m */; };
 		3E9172A714F84AFD00F9609D /* ISContactManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9172A614F84AFD00F9609D /* ISContactManager.m */; };
@@ -190,6 +193,9 @@
 		3E2B4F8E14E58E520090D948 /* ISPasteboardObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISPasteboardObject.h; path = swyp/ISPasteboardObject.h; sourceTree = "<group>"; };
 		3E2B4F8F14E58E520090D948 /* ISPasteboardObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISPasteboardObject.m; path = swyp/ISPasteboardObject.m; sourceTree = "<group>"; };
 		3E2B4F9114E5CA520090D948 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		3E3BF4C514F9C6C80089A9E7 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		3E3BF4C814F9C7F80089A9E7 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		3E6B180514F9BCCC0003AC17 /* grippers@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grippers@2x.png"; sourceTree = "<group>"; };
 		3E8E300B14EB381A008F08B5 /* handmadepaper@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "handmadepaper@2x.png"; path = "resources/handmadepaper@2x.png"; sourceTree = SOURCE_ROOT; };
 		3E8E301414EB3CBF008F08B5 /* ISContactCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISContactCardVC.h; path = swyp/ISContactCardVC.h; sourceTree = "<group>"; };
 		3E8E301514EB3CC0008F08B5 /* ISContactCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISContactCardVC.m; path = swyp/ISContactCardVC.m; sourceTree = "<group>"; };
@@ -350,6 +356,8 @@
 			files = (
 				7959A54714E7698100020F6B /* libKal.a in Frameworks */,
 				7962720A14DC799000E5D17A /* liblibSwyp.a in Frameworks */,
+				3E3BF4C914F9C7F80089A9E7 /* AddressBookUI.framework in Frameworks */,
+				3E3BF4C714F9C6D70089A9E7 /* AddressBook.framework in Frameworks */,
 				7959A57914E77B9B00020F6B /* EventKit.framework in Frameworks */,
 				7959A57A14E77B9B00020F6B /* EventKitUI.framework in Frameworks */,
 				3E2B4F9314E5CA620090D948 /* AssetsLibrary.framework in Frameworks */,
@@ -506,6 +514,8 @@
 		796271D014DC788200E5D17A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3E3BF4C814F9C7F80089A9E7 /* AddressBookUI.framework */,
+				3E3BF4C514F9C6C80089A9E7 /* AddressBook.framework */,
 				7959A57514E77B8700020F6B /* EventKit.framework */,
 				7959A57614E77B8700020F6B /* EventKitUI.framework */,
 				3E2B4F9114E5CA520090D948 /* AssetsLibrary.framework */,
@@ -632,6 +642,7 @@
 		7962727014DC81D100E5D17A /* swypBundleResources */ = {
 			isa = PBXGroup;
 			children = (
+				3E6B180514F9BCCC0003AC17 /* grippers@2x.png */,
 				7962727114DC81D100E5D17A /* bluetooth-logo-enabled.png */,
 				7962727214DC81D100E5D17A /* bluetooth-logo-enabled@2x.png */,
 				7962727314DC81D100E5D17A /* connectivity-bluetooth-disabled.png */,
@@ -848,6 +859,7 @@
 				3ED275C014F70087008D78BD /* FlatButtonSmall@2x.png in Resources */,
 				3ED275C114F70087008D78BD /* FlatButtonSmallPressed.png in Resources */,
 				3ED275C214F70087008D78BD /* FlatButtonSmallPressed@2x.png in Resources */,
+				3E6B180614F9BCCC0003AC17 /* grippers@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

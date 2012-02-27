@@ -7,6 +7,7 @@
 //
 
 #import "UIImage+Resize.h"
+#import "NSData+Base64.h"
 
 #import "ISAppDelegate.h"
 #import "ISContactCardVC.h"
@@ -22,12 +23,17 @@ static const NSInteger PICTURE_SIDE = 56;
     - (NSString *)recursiveDescription;
 @end
 
+@interface ISContactCardVC ()
+@property (nonatomic, strong) UIPopoverController *popOver;
+@end
+
 @implementation ISContactCardVC
 
 @synthesize tableView = _tableView;
 @synthesize faceButton = _faceButton;
 @synthesize editButton = _editButton;
 @synthesize contactInfo = _contactInfo;
+@synthesize popOver = _popOver;
 
 - (id)init {
     self = [super init];
@@ -37,8 +43,12 @@ static const NSInteger PICTURE_SIDE = 56;
                             [[NSUserDefaults standardUserDefaults] objectForKey:@"Number"], @"Number",
                             [[NSUserDefaults standardUserDefaults] objectForKey:@"Email"], @"Email", nil];
         
-        UIImage *faceImage = [UIImage imageWithContentsOfFile:[self _documentsPathForFileName:@"face.png"]];
-        if (faceImage) [contactInfo setObject:faceImage forKey:@"Image"];
+        NSData *imageData = [NSData dataWithContentsOfFile:[self _documentsPathForFileName:@"face.png"]];
+        if (imageData){
+            NSString *base64Image = [imageData base64EncodedString];
+            [contactInfo setObject:base64Image forKey:@"Image"];
+        }
+        
         self.contactInfo = contactInfo;
         
         NSArray* tableContents =
@@ -100,7 +110,7 @@ static const NSInteger PICTURE_SIDE = 56;
     [self.editButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [self.editButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.editButton setTitle:LocStr(@"Edit", @"Edit contact info") forState:UIControlStateNormal];
-    [self.editButton addTarget:self action:@selector(toggleEditing) forControlEvents:UIControlEventTouchUpInside];
+    [self.editButton addTarget:self action:@selector(_toggleEditing) forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubviews:self.tableView, self.faceButton, self.editButton, nil];
     
@@ -125,7 +135,7 @@ static const NSInteger PICTURE_SIDE = 56;
     [self.editButton setBackgroundImage:stretchedButtonImage forState:UIControlStateNormal];
     [self.editButton setBackgroundImage:stretchedPressedButtonImage forState:UIControlStateHighlighted];
     
-    UIImage *faceImage = [self.contactInfo objectForKey:@"Image"];
+    UIImage *faceImage = [UIImage imageWithData:[NSData dataWithBase64String:[self.contactInfo objectForKey:@"Image"]]];
     if (faceImage){
         [self.faceButton setImage:faceImage forState:UIControlStateNormal];
     }
@@ -177,7 +187,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
     
     if (buttonIndex != actionSheet.cancelButtonIndex){
-        [[self _rootVC] presentModalViewController:_imagePickerController animated:YES];
+        if (deviceIsPad) {
+            self.popOver = [[UIPopoverController alloc] initWithContentViewController:_imagePickerController];
+            [self.popOver presentPopoverFromRect:self.faceButton.frame inView:self.view 
+                   permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        } else {
+            [[self _rootVC] presentModalViewController:_imagePickerController animated:YES];
+        }
     }
 }
 
@@ -188,16 +204,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         didFinishPickingImage:(UIImage *)image 
                   editingInfo:(NSDictionary *)editingInfo {
     // Do something with the image here.
-    UIImage *resizedImage = [image thumbnailImage:PICTURE_SIDE
-                                transparentBorder:0 
-                                     cornerRadius:8 
-                             interpolationQuality:1];
+    UIImage *resizedImage = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFill 
+                                                        bounds:self.faceButton.size 
+                                          interpolationQuality:1];
     
     NSData *faceImageData = UIImagePNGRepresentation(resizedImage);
     NSString *filePath = [self _documentsPathForFileName:@"face.png"]; //Add the file name
     [faceImageData writeToFile:filePath atomically:YES];
     
-    [self.contactInfo setValue:resizedImage forKey:@"Image"];
+    [self.contactInfo setValue:[faceImageData base64EncodedString] forKey:@"Image"];
 
     [self.faceButton setImage:resizedImage forState:UIControlStateNormal];
     [[self _rootVC] dismissModalViewControllerAnimated:YES];
@@ -323,7 +338,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     CGPoint editLocation = [recognizer locationInView:self.view];
     if (!_isEditing && !CGRectContainsPoint(self.faceButton.frame, faceLocation)
                     && !CGRectContainsPoint(self.editButton.frame, editLocation)){
-        NSLog(@"Time to swyp my info.");
         self.editButton.hidden = YES; // don't want edit button in thumbnail
         
         UIGraphicsBeginImageContext(self.view.bounds.size);

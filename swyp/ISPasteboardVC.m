@@ -11,16 +11,17 @@
 #import "NSString+URLEncoding.h"
 #import <CoreLocation/CoreLocation.h>
 
-#define PBHEIGHT 212
-#define PBWIDTH 320
-
 @implementation ISPasteboardVC
 
 @synthesize pbChangeCount;
 @synthesize pbObjects;
 
+static NSInteger PBHEIGHT;
+static NSInteger PBWIDTH;
+
 +(UITabBarItem*)tabBarItem{
-	return [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Relevant", @"Tab bar item for relevant things") image:[UIImage imageNamed:@"paperclip"] tag:2];
+	return [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Relevant", @"Tab bar item for relevant things") 
+                                         image:[UIImage imageNamed:@"paperclip"] tag:2];
 }
 
 
@@ -29,10 +30,18 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.tabBarItem = [[self class] tabBarItem];
-	
+
         self.pbObjects = [NSMutableArray array];
         
         library = [[ALAssetsLibrary alloc] init];
+        
+        if (deviceIsPad){
+            PBHEIGHT = 424;
+            PBWIDTH = 640;
+        } else {
+            PBHEIGHT = 212;
+            PBWIDTH = 320;
+        }
     }
     
     pbChangeCount = 0;
@@ -45,18 +54,17 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
 	
-	pbScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.view.height-PBHEIGHT, self.view.width, PBHEIGHT)];
+	pbScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, (self.view.height-PBHEIGHT)/2, self.view.width, PBHEIGHT)];
 	pbScrollView.showsHorizontalScrollIndicator = NO;
     pbScrollView.showsVerticalScrollIndicator = NO;
 	pbScrollView.pagingEnabled = YES;
-	pbScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+	pbScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
 	pbScrollView.delegate = self;
 	[self.view addSubview:pbScrollView];
 	
-	pageControl.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-	pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.view.height-80, self.view.width, 24)];
+	pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, (self.view.height+PBHEIGHT+48)/2, self.view.width, 24)];
+    pageControl.autoresizingMask = UIViewAutoresizingFlexibleMargins|UIViewAutoresizingFlexibleHeight;
 	[self.view addSubview:pageControl];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated

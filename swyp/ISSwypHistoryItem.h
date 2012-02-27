@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AddressBookUI/AddressBookUI.h>
 #import <CoreData/CoreData.h>
 #import "NimbusModels.h"
 
@@ -19,7 +20,7 @@ typedef enum{
 	swypHistoryItemExportActionOpenInMaps
 } swypHistoryItemExportAction;
 
-@interface ISSwypHistoryItem : NSManagedObject <NICellObject,swypContentDataSourceProtocol, swypConnectionSessionDataDelegate>{
+@interface ISSwypHistoryItem : NSManagedObject <NICellObject,swypContentDataSourceProtocol, swypConnectionSessionDataDelegate, ABNewPersonViewControllerDelegate>{
 	id<swypContentDataSourceDelegate>	_datasourceDelegate;
 }
 

@@ -14,7 +14,7 @@
     id<swypContentDataSourceDelegate>	_datasourceDelegate;
 }
 
-@property (nonatomic, strong) NSDictionary *contactInfo;
+@property (nonatomic, strong) NSString *contactInfo;
 @property (nonatomic, strong) UIImage *thumbnailImage;
 
 - (void)showWorkspaceWithContactInfo:(NSDictionary *)contactInfo andViewImage:(UIImage *)theImage;

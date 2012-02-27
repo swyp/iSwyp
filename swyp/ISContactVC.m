@@ -44,12 +44,13 @@
 */
 
 - (void)viewWillAppear:(BOOL)animated {
+    CGFloat ty = self.view.origin.y - _contactCard.view.origin.y + 
+    (self.view.height-_contactCard.view.height)/2;
+    ty -= (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) ? 24 : 48;
+
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationCurveEaseInOut animations:^{
-        CGFloat ty = self.view.origin.y - _contactCard.view.origin.y + 
-                    (self.view.height-_contactCard.view.height)/2 - 48;
         _contactCard.view.transform = CGAffineTransformTranslate(_contactCard.view.transform, 0, ty);
     } completion:^(BOOL finished){
-        
     }];
 }
 

@@ -61,7 +61,7 @@ static NSInteger PBWIDTH;
 	[self.view addSubview:pbScrollView];
 	
 	pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, (self.view.height+PBHEIGHT+48)/2, self.view.width, 24)];
-    pageControl.autoresizingMask = UIViewAutoresizingFlexibleMargins|UIViewAutoresizingFlexibleHeight;
+    pageControl.autoresizingMask = UIViewAutoresizingFlexibleMargins|UIViewAutoresizingFlexibleDimensions;
 	[self.view addSubview:pageControl];
 }
 

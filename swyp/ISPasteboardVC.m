@@ -19,8 +19,8 @@
 static NSInteger PBHEIGHT;
 static NSInteger PBWIDTH;
 
-+(UITabBarItem*)tabBarItem{
-	return [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Relevant", @"Tab bar item for relevant things") 
++(UITabBarItem *)tabBarItem{
+	return [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Pasteboard", @"Tab bar item for pasteboard") 
                                          image:[UIImage imageNamed:@"paperclip"] tag:2];
 }
 
@@ -29,8 +29,6 @@ static NSInteger PBWIDTH;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.tabBarItem = [[self class] tabBarItem];
-
         self.pbObjects = [NSMutableArray array];
         
         library = [[ALAssetsLibrary alloc] init];
@@ -92,7 +90,8 @@ static NSInteger PBWIDTH;
 							dispatch_async(dispatch_get_main_queue(), ^{
 								if (alAsset.defaultRepresentation.url != latestAssetURL){
 									
-									self.tabBarItem.badgeValue = @"!";
+                                  NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"!" forKey:@"text"];
+                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"pasteboardBadge" object:nil userInfo:userInfo];
 									
 									latestAssetURL = alAsset.defaultRepresentation.url;
 									NSLog(@"Adding image!");
@@ -102,8 +101,8 @@ static NSInteger PBWIDTH;
 
 									[self redisplayPasteboard];
 								}
-							});                    
-						}                
+							});
+						}
 					}
 				}];
 			}
@@ -141,7 +140,8 @@ static NSInteger PBWIDTH;
     if (pbChangeCount != pasteBoard.changeCount) {
         pbChangeCount = pasteBoard.changeCount;
         
-        self.tabBarItem.badgeValue = @"!";
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"!" forKey:@"text"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pasteboardBadge" object:nil userInfo:userInfo];
                 
         if (pasteBoard.images) {
             for (UIImage *image in pasteBoard.images){
@@ -151,7 +151,7 @@ static NSInteger PBWIDTH;
                 
                 [pbObjects insertObject:pbItem atIndex:0];
             }
-        }else if (pasteBoard.URL) {
+        } else if (pasteBoard.URL) {
             ISPasteboardObject *pbItem = [[ISPasteboardObject alloc] init];
 
             pbItem.text = [pasteBoard.URL absoluteString];
@@ -177,7 +177,8 @@ static NSInteger PBWIDTH;
             [pbObjects insertObject:pbItem atIndex:0];
         }
     } else {
-        self.tabBarItem.badgeValue = nil;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pasteboardBadge" object:nil userInfo:nil];
+
         [self addMostRecentPhotoTaken];
     }
     

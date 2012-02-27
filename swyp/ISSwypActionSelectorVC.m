@@ -58,6 +58,7 @@
         _selectedTab = -1;
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideVCs) name:@"tappedOutsideTabView" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_updatePasteboardBadge:) name:@"pasteboardBadge" object:nil];
 	}
 	return self;
 }
@@ -105,7 +106,7 @@
     _actionTabBar.delegate = self;
     
     [self.view addSubview:_actionTabBar];
-        
+            
 	//tab bar at bottom
 	
 	//we get callbacks from tab bar, then add views above the histroy scrollview
@@ -133,9 +134,9 @@
 			item.badgeValue = nil;
 		}
 		
-		
 		CGRect orientationRect	=	CGRectZero;
-		orientationRect.size	=	(UIDeviceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])? [self view].frame:CGRectMake(0, 0,[self view].frame.size.height, [self view].frame.size.width)).size;
+		orientationRect.size	=	(UIDeviceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? 
+                                     [self view].frame:CGRectMake(0, 0,[self view].frame.size.height, [self view].frame.size.width)).size;
 		orientationRect.size.height -= [_actionTabBar height];
 		[selectedVC.view	setFrame:orientationRect];
 
@@ -146,6 +147,15 @@
 		}];
     }
     
+}
+
+- (void)_updatePasteboardBadge:(NSNotification *)note {
+    UITabBarItem *item = [_actionTabBar.items objectAtIndex:2];
+    if ([note userInfo]){
+        item.badgeValue = [[note userInfo] objectForKey:@"text"];
+    } else {
+        item.badgeValue = nil;
+    }
 }
 
 - (void)updatePasteboard {
@@ -168,7 +178,8 @@
 }
 
 #pragma mark - delegation
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+- (void)navigationController:(UINavigationController *)navigationController 
+      willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
 	if ( viewController == _historyScrollView ) {
 		[navigationController setNavigationBarHidden:YES animated:animated];
 	} else if ( [navigationController isNavigationBarHidden] ) {

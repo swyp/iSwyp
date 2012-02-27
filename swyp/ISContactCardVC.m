@@ -110,7 +110,7 @@ static const NSInteger PICTURE_SIDE = 56;
     [self.editButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [self.editButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.editButton setTitle:LocStr(@"Edit", @"Edit contact info") forState:UIControlStateNormal];
-    [self.editButton addTarget:self action:@selector(toggleEditing) forControlEvents:UIControlEventTouchUpInside];
+    [self.editButton addTarget:self action:@selector(_toggleEditing) forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubviews:self.tableView, self.faceButton, self.editButton, nil];
     

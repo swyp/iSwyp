@@ -63,6 +63,17 @@ static NSInteger PBWIDTH;
 	pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, (self.view.height+PBHEIGHT+48)/2, self.view.width, 24)];
     pageControl.autoresizingMask = UIViewAutoresizingFlexibleMargins|UIViewAutoresizingFlexibleDimensions;
 	[self.view addSubview:pageControl];
+    
+    _explanation = [[UILabel alloc] initWithFrame:CGRectMake(16, 0, self.view.width-32, 64)];
+    _explanation.autoresizingMask = UIViewAutoresizingFlexibleDimensions|UIViewAutoresizingFlexibleBottomMargin;
+    _explanation.numberOfLines = 0;
+    _explanation.text = LocStr(@"Copy items to your clipboard and they will appear here.", nil);
+    _explanation.font = [UIFont boldSystemFontOfSize:16];
+    _explanation.textColor = [UIColor whiteColor];
+    _explanation.layer.shadowColor = [UIColor blackColor].CGColor;
+    _explanation.layer.shadowOffset = CGSizeMake(0, 1);
+    _explanation.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:_explanation];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -187,6 +198,14 @@ static NSInteger PBWIDTH;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     pageControl.currentPage = round(scrollView.contentOffset.x/PBWIDTH);
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    if (UIDeviceOrientationIsPortrait(fromInterfaceOrientation) && !deviceIsPad){
+        _explanation.hidden = YES;
+    } else {
+        _explanation.hidden = NO;
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

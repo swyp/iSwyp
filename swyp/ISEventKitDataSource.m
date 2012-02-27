@@ -17,6 +17,7 @@ static BOOL IsDateBetweenInclusive(NSDate *date, NSDate *begin, NSDate *end)
 @end
 
 @implementation ISEventKitDataSource
+@synthesize dateOfLastModifiedEvent, didAutodisplayLastModifiedAlready;
 
 + (ISEventKitDataSource *)dataSource
 {
@@ -71,18 +72,32 @@ static BOOL IsDateBetweenInclusive(NSDate *date, NSDate *begin, NSDate *end)
 #pragma mark KalDataSource protocol conformance
 
 - (void)presentingDatesFrom:(NSDate *)fromDate to:(NSDate *)toDate delegate:(id<KalDataSourceCallbacks>)delegate
-{
+{	
   // asynchronous callback on the main thread
   [events removeAllObjects];
-  NSLog(@"Fetching events from EventKit between %@ and %@ on a GCD-managed background thread...", fromDate, toDate);
   dispatch_async(eventStoreQueue, ^{
-    NSDate *fetchProfilerStart = [NSDate date];
-    NSPredicate *predicate = [eventStore predicateForEventsWithStartDate:fromDate endDate:toDate calendars:nil];
-    NSArray *matchedEvents = [eventStore eventsMatchingPredicate:predicate];
-    dispatch_async(dispatch_get_main_queue(), ^{
-      NSLog(@"Fetched %d events in %f seconds", [matchedEvents count], -1.f * [fetchProfilerStart timeIntervalSinceNow]);
-      [events addObjectsFromArray:matchedEvents];
-      [delegate loadedDataSource:self];
+		NSDate *fetchProfilerStart = [NSDate date];
+		NSPredicate *predicate = [eventStore predicateForEventsWithStartDate:fromDate endDate:toDate calendars:nil];
+		NSArray *matchedEvents = [eventStore eventsMatchingPredicate:predicate];
+		NSArray *dateOrderedEvents		=	[matchedEvents sortedArrayUsingComparator:^NSComparisonResult(EKEvent* obj1, EKEvent* obj2) {
+			return [[obj1 lastModifiedDate] compare:[obj2 lastModifiedDate]];
+		}];
+	  
+	  
+	  if (abs([[[dateOrderedEvents lastObject] lastModifiedDate] timeIntervalSinceNow]) < 5*60){ //displays the most recent app run one time
+		  if ([dateOfLastModifiedEvent isEqualToDate:[[dateOrderedEvents lastObject] startDate]] == NO){
+			  dateOfLastModifiedEvent			=	[[dateOrderedEvents lastObject] startDate];
+			  didAutodisplayLastModifiedAlready	=	NO;
+		  }
+	  }else{
+		  dateOfLastModifiedEvent	=	nil;
+	  }
+	  
+		dispatch_async(dispatch_get_main_queue(), ^{
+		EXOLog(@"Fetched %d events in %f seconds w/ last date %@", [matchedEvents count], -1.f * [fetchProfilerStart timeIntervalSinceNow], [[dateOrderedEvents lastObject] description]);
+		[events addObjectsFromArray:matchedEvents];
+		[delegate loadedDataSource:self];
+
     });
   });
 }

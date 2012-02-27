@@ -15,7 +15,11 @@
   NSMutableArray *events;           // Must be used on the main thread
   EKEventStore *eventStore;         // Must be used on a background thread managed by eventStoreQueue
   dispatch_queue_t eventStoreQueue; // Serializes access to eventStore and offloads the query work to a background thread.
+	
+	
 }
+@property (nonatomic, strong) NSDate *	dateOfLastModifiedEvent;
+@property (nonatomic, assign) BOOL		didAutodisplayLastModifiedAlready;
 
 + (ISEventKitDataSource *)dataSource;
 - (EKEvent *)eventAtIndexPath:(NSIndexPath *)indexPath;  // exposed for client so that it can implement the UITableViewDelegate protocol.

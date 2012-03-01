@@ -41,7 +41,7 @@
 		[[UIPasteboard generalPasteboard] setData:[self itemData] forPasteboardType:@"public.png"];
 	}else if ([[self itemType] isFileType:[NSString imageJPEGFileType]]){
 		[[UIPasteboard generalPasteboard] setData:[self itemData] forPasteboardType:@"public.jpeg"];
-	}else{
+	} else{
 		[[UIPasteboard generalPasteboard] setData:[self itemPreviewImage] forPasteboardType:@"public.jpeg"];
 	}
 	
@@ -58,7 +58,15 @@
 	if ([[self itemType] isFileType:[NSString textPlainFileType]]){
 		representation	=	[[NSString alloc]  initWithBytes:[[self itemData] bytes] length:[[self itemData] length] encoding: NSUTF8StringEncoding]; 
 	} else if ([[self itemType] isFileType:[NSString swypAddressFileType]]){
-		representation	=	[[NSString alloc]  initWithBytes:[[self itemData] bytes] length:[[self itemData] length] encoding: NSUTF8StringEncoding];
+		NSDictionary *itemDict	= [NSDictionary dictionaryWithJSONString:
+                                   [[NSString alloc] initWithBytes:[[self itemData] bytes] 
+                                                            length:[[self itemData] length] 
+                                                          encoding: NSUTF8StringEncoding]];
+        if ([itemDict objectForKey:@"address"]){
+             representation = [itemDict objectForKey:@"address"];
+        } else if ([itemDict objectForKey:@"coords"]){
+            representation = [itemDict objectForKey:@"coords"];
+        }
 	} else if ([[self itemType] isFileType:[NSString swypContactFileType]]){
         representation = [[self itemDataDictionaryRep] objectForKey:@"Name"];
     }
@@ -67,7 +75,7 @@
 }
 
 
--(void) displayInSwypWorkspace{
+-(void) displayInSwypWorkspace {
 	swypWorkspaceViewController * swypWorkspace	= [swypWorkspaceViewController sharedSwypWorkspace];
 	[swypWorkspace setContentDataSource:self];
 	[_datasourceDelegate datasourceSignificantlyModifiedContent:self];

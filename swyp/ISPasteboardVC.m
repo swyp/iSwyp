@@ -19,8 +19,8 @@
 static NSInteger PBHEIGHT;
 static NSInteger PBWIDTH;
 
-+(UITabBarItem*)tabBarItem{
-	return [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Relevant", @"Tab bar item for relevant things") 
++(UITabBarItem *)tabBarItem{
+	return [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Pasteboard", @"Tab bar item for pasteboard") 
                                          image:[UIImage imageNamed:@"paperclip"] tag:2];
 }
 
@@ -29,8 +29,6 @@ static NSInteger PBWIDTH;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.tabBarItem = [[self class] tabBarItem];
-
         self.pbObjects = [NSMutableArray array];
         
         library = [[ALAssetsLibrary alloc] init];
@@ -63,8 +61,19 @@ static NSInteger PBWIDTH;
 	[self.view addSubview:pbScrollView];
 	
 	pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, (self.view.height+PBHEIGHT+48)/2, self.view.width, 24)];
-    pageControl.autoresizingMask = UIViewAutoresizingFlexibleMargins|UIViewAutoresizingFlexibleHeight;
+    pageControl.autoresizingMask = UIViewAutoresizingFlexibleMargins|UIViewAutoresizingFlexibleDimensions;
 	[self.view addSubview:pageControl];
+    
+    _explanation = [[UILabel alloc] initWithFrame:CGRectMake(16, 0, self.view.width-32, 64)];
+    _explanation.autoresizingMask = UIViewAutoresizingFlexibleDimensions|UIViewAutoresizingFlexibleBottomMargin;
+    _explanation.numberOfLines = 0;
+    _explanation.text = LocStr(@"Copy items to your clipboard and they will appear here.", nil);
+    _explanation.font = [UIFont boldSystemFontOfSize:16];
+    _explanation.textColor = [UIColor whiteColor];
+    _explanation.layer.shadowColor = [UIColor blackColor].CGColor;
+    _explanation.layer.shadowOffset = CGSizeMake(0, 1);
+    _explanation.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:_explanation];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -92,7 +101,8 @@ static NSInteger PBWIDTH;
 							dispatch_async(dispatch_get_main_queue(), ^{
 								if (alAsset.defaultRepresentation.url != latestAssetURL){
 									
-									self.tabBarItem.badgeValue = @"!";
+                                  NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"!" forKey:@"text"];
+                                  [[NSNotificationCenter defaultCenter] postNotificationName:@"pasteboardBadge" object:nil userInfo:userInfo];
 									
 									latestAssetURL = alAsset.defaultRepresentation.url;
 									NSLog(@"Adding image!");
@@ -102,8 +112,8 @@ static NSInteger PBWIDTH;
 
 									[self redisplayPasteboard];
 								}
-							});                    
-						}                
+							});
+						}
 					}
 				}];
 			}
@@ -141,7 +151,8 @@ static NSInteger PBWIDTH;
     if (pbChangeCount != pasteBoard.changeCount) {
         pbChangeCount = pasteBoard.changeCount;
         
-        self.tabBarItem.badgeValue = @"!";
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"!" forKey:@"text"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pasteboardBadge" object:nil userInfo:userInfo];
                 
         if (pasteBoard.images) {
             for (UIImage *image in pasteBoard.images){
@@ -151,7 +162,7 @@ static NSInteger PBWIDTH;
                 
                 [pbObjects insertObject:pbItem atIndex:0];
             }
-        }else if (pasteBoard.URL) {
+        } else if (pasteBoard.URL) {
             ISPasteboardObject *pbItem = [[ISPasteboardObject alloc] init];
 
             pbItem.text = [pasteBoard.URL absoluteString];
@@ -177,7 +188,8 @@ static NSInteger PBWIDTH;
             [pbObjects insertObject:pbItem atIndex:0];
         }
     } else {
-        self.tabBarItem.badgeValue = nil;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pasteboardBadge" object:nil userInfo:nil];
+
         [self addMostRecentPhotoTaken];
     }
     
@@ -186,6 +198,14 @@ static NSInteger PBWIDTH;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     pageControl.currentPage = round(scrollView.contentOffset.x/PBWIDTH);
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    if (UIDeviceOrientationIsPortrait(fromInterfaceOrientation) && !deviceIsPad){
+        _explanation.hidden = YES;
+    } else {
+        _explanation.hidden = NO;
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

@@ -19,6 +19,7 @@
     UIPageControl   *pageControl;
     NSURL           *latestAssetURL;
     ALAssetsLibrary *library;
+    UILabel         *_explanation;
 }
 
 @property (assign, nonatomic) NSInteger pbChangeCount;

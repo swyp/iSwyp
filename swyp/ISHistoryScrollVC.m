@@ -230,7 +230,7 @@
 #pragma mark swypConnectionSessionDataDelegate
 -(NSArray*)supportedFileTypesForReceipt{
 	//everything supported, plus the thumbnail type as a hack
-	return [NSArray arrayWithObjects:[NSString swypAddressFileType],[NSString swypContactFileType], [NSString textPlainFileType],[NSString imagePNGFileType],[NSString imageJPEGFileType],[NSString swypWorkspaceThumbnailFileType], nil];
+	return [NSArray arrayWithObjects:[NSString swypCalendarEventsFileType], [NSString swypAddressFileType],[NSString swypContactFileType], [NSString textPlainFileType],[NSString imagePNGFileType],[NSString imageJPEGFileType],[NSString swypWorkspaceThumbnailFileType], nil];
 }
 
 -(void)	yieldedData:(NSData*)streamData ofType:(NSString *)streamType fromDiscernedStream:(swypDiscernedInputStream *)discernedStream inConnectionSession:(swypConnectionSession *)session{

@@ -16,7 +16,10 @@
 @property (nonatomic, strong) ISEventKitDataSource *	calendarDataSource;
 @property (nonatomic, strong) KalViewController *		kalVC;
 
-///temporary
+@property (nonatomic, strong) NSMutableArray *	swypPendingEvents;
 @property (nonatomic, strong) UIImage*					exportingCalImage;
+
+
+-(NSDictionary*) exportDictionaryForEvents:(NSArray*)exportEvents;
 
 @end

@@ -10,12 +10,13 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ISCalendarDayRenderVC.h"
 #import "ISCalendarEventRenderVC.h"
+#import "MAEvent.h"
 
 static double iPadCalendarHeight	=	408;
 
 @implementation ISCalendarVC
 @synthesize calendarDataSource = _calendarDataSource, kalVC = _kalVC;
-//temp
+@synthesize swypPendingEvents = _swypPendingEvents;
 @synthesize exportingCalImage;
 
 +(UITabBarItem*)tabBarItem{
@@ -27,7 +28,8 @@ static double iPadCalendarHeight	=	408;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.tabBarItem = [[self class] tabBarItem];
+		self.swypPendingEvents	= [NSMutableArray new];
+        self.tabBarItem			= [[self class] tabBarItem];
     }
     return self;
 }
@@ -82,11 +84,51 @@ static double iPadCalendarHeight	=	408;
 
 #pragma mark - CalendarView Delegate
 -(void)rePressedOnDay:(NSDate *)date withView:(UIView *)dayTile withController:(KalViewController *)controller{
+	
+	[[self swypPendingEvents] removeAllObjects];
+	for (MAEvent * mEvent in [controller dayView:controller.dayView eventsForDate:date]){
+		EKEvent * eEvent = [[mEvent userInfo] valueForKey:@"EKEvent"];
+		
+		if (eEvent){
+			[[self swypPendingEvents] addObject:eEvent];
+		}
+	}
+	
 	[ISCalendarDayRenderVC beginRenderWithObject:[controller dayView:controller.dayView eventsForDate:date] retainedDelegate:self];
 }
 
 -(void)tappedOnEvent:(EKEvent *)event withController:(KalViewController *)controller{
+	
+	[[self swypPendingEvents] removeAllObjects];
+	if (event){
+		[[self swypPendingEvents] addObject:event];
+	}
+
 	[ISCalendarEventRenderVC beginRenderWithObject:event retainedDelegate:self];
+}
+
+#pragma mark public
+-(NSDictionary*) exportDictionaryForEvents:(NSArray*)exportEvents{
+	NSMutableDictionary * exportDict	=	[NSMutableDictionary dictionary];
+	NSMutableArray	* eventArray		=	[NSMutableArray array];
+	
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+	[dateFormatter setDateFormat:@"yyyy-MM-ddHH:mm:ss"];
+	for (EKEvent * nextEvent in exportEvents){
+		NSMutableDictionary * particularDictionary	=	[NSMutableDictionary dictionary];
+		
+		[particularDictionary setValue:[dateFormatter stringFromDate:nextEvent.startDate] forKey:@"startDate"];
+		[particularDictionary setValue:[dateFormatter stringFromDate:nextEvent.endDate] forKey:@"endDate"];
+		[particularDictionary setValue:nextEvent.title forKey:@"title"];
+		[particularDictionary setValue:[NSNumber numberWithBool:nextEvent.isAllDay] forKey:@"isAllDay"];
+		[particularDictionary setValue:[[UIColor colorWithCGColor:nextEvent.calendar.CGColor] swypEncodedColorStringValue] forKey:@"backgroundColor"];
+		
+		[eventArray addObject:particularDictionary];
+	}
+	[exportDict setValue:eventArray forKey:@"events"];
+	
+	return exportDict;
 }
 
 #pragma mark <swypContentDataSourceProtocol, swypConnectionSessionDataDelegate>
@@ -102,13 +144,17 @@ static double iPadCalendarHeight	=	408;
 }
 
 - (NSArray*)		supportedFileTypesForContentWithID: (NSString*)contentID{
-	return [NSArray arrayWithObjects:[NSString imageJPEGFileType],[NSString imagePNGFileType], nil];
+	return [NSArray arrayWithObjects:[NSString swypCalendarEventsFileType], [NSString imageJPEGFileType],[NSString imagePNGFileType], nil];
 }
 
 - (NSData*)	dataForContentWithID: (NSString*)contentID fileType:	(swypFileTypeString*)type{
 	NSData *	sendData	=	nil;	
 	
-	if ([type isFileType:[NSString imagePNGFileType]]){
+	if ([type isFileType:[NSString swypCalendarEventsFileType]]){
+		NSDictionary * sendEventsDictionary	=	[self exportDictionaryForEvents:[self swypPendingEvents]];
+		NSString *jsonString				=	[sendEventsDictionary jsonStringValue];
+		sendData	=	[jsonString dataUsingEncoding:NSUTF8StringEncoding];
+	}else if ([type isFileType:[NSString imagePNGFileType]]){
 		sendData	=	UIImagePNGRepresentation(self.exportingCalImage);
 	}else if ([type isFileType:[NSString imageJPEGFileType]]){
 		sendData	=	 UIImageJPEGRepresentation(self.exportingCalImage,.8);

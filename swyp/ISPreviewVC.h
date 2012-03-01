@@ -10,6 +10,7 @@
 #import "ISSwypHistoryItem.h"
 #import "ISPreviewMapViewVC.h"
 #import "ISPreviewWebViewVC.h"
+#import "ISPreviewCalendarDayVC.h"
 
 @interface ISPreviewVC : UIViewController{
 	id<swypContentDataSourceDelegate>	_datasourceDelegate;
@@ -17,6 +18,7 @@
 @property (nonatomic, strong) ISSwypHistoryItem *			displayedHistoryItem;
 @property (nonatomic, strong) ISPreviewMapViewVC *			mapPreviewVC;
 @property (nonatomic, strong) ISPreviewWebViewVC *			webPreviewVC;
+@property (nonatomic, strong) ISPreviewCalendarDayVC * dayPreviewVC;
 @property (nonatomic, strong) UIView *						actionButtonView;
 @property (nonatomic, strong) UIButton *					exportButton;
 

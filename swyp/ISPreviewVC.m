@@ -11,7 +11,7 @@
 
 @implementation ISPreviewVC
 @synthesize displayedHistoryItem = _displayedHistoryItem;
-@synthesize mapPreviewVC = _mapPreviewVC, webPreviewVC = _webPreviewVC, actionButtonView = _actionButtonView, exportButton = _exportButton;
+@synthesize mapPreviewVC = _mapPreviewVC, webPreviewVC = _webPreviewVC, actionButtonView = _actionButtonView, exportButton = _exportButton, dayPreviewVC= _dayPreviewVC;
 
 #pragma mark actions
 -(void)pressedPasteboardButton:(UIButton*)sender{
@@ -66,6 +66,8 @@
 		swypItemVC	=	[[self webPreviewVC] loadPreviewImageFromHistoryItem:historyItem];
 	}else if ([[historyItem itemType] isFileType:[NSString swypContactFileType]]){
 		swypItemVC	=	[[self webPreviewVC] loadPreviewImageFromHistoryItem:historyItem];		
+	}else if ([[historyItem itemType] isFileType:[NSString swypCalendarEventsFileType]]){
+		swypItemVC	=	[[self dayPreviewVC] loadContentFromHistoryItem:historyItem];
 	}else{
 		swypItemVC	=	[[self webPreviewVC] loadContentFromHistoryItem:historyItem];
 	}
@@ -148,6 +150,17 @@
 	return _webPreviewVC;
 }
 
+-(ISPreviewCalendarDayVC*)dayPreviewVC{
+	if (_dayPreviewVC == nil){
+		_dayPreviewVC	=	[[ISPreviewCalendarDayVC alloc] init];
+		[_dayPreviewVC.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+		[_dayPreviewVC.view setFrame:CGRectMake(0, [self actionButtonView].height, self.view.width, self.view.height - [self actionButtonView].height)];
+		
+	}
+	return _dayPreviewVC;
+}
+
+
 #pragma mark - UIViewController
 -(void)viewDidLoad{
 	[super viewDidLoad];
@@ -177,6 +190,11 @@
 	if (_webPreviewVC != nil && [_webPreviewVC.view isDescendantOfView:self.view] == NO){
 		[_webPreviewVC.view removeFromSuperview];
 		_webPreviewVC  =	nil;
+	}
+
+	if (_dayPreviewVC != nil && [_dayPreviewVC.view isDescendantOfView:self.view] == NO){
+		[_dayPreviewVC.view removeFromSuperview];
+		_dayPreviewVC  =	nil;
 	}
 
 }

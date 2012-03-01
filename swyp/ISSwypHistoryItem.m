@@ -206,14 +206,13 @@
 
 -(NSDictionary*) itemDataDictionaryRep {
 	NSDictionary * parsedDict	=	nil;
-	if ([[self itemType] isFileType:[NSString swypAddressFileType]]){
+	if ([[self itemType] isFileType:[NSString swypAddressFileType]] || ([[self itemType] isFileType:[NSString swypContactFileType]])|| ([[self itemType] isFileType:[NSString swypCalendarEventsFileType]])){
 		NSString *	readString	=	[[NSString alloc]  initWithBytes:[[self itemData] bytes] length:[[self itemData] length] encoding: NSUTF8StringEncoding];
 		if (StringHasText(readString)){
 			parsedDict				=	[NSDictionary dictionaryWithJSONString:readString];
 		}
-	} else if ([[self itemType] isFileType:[NSString swypContactFileType]]){
-        parsedDict = [NSDictionary dictionaryWithJSONString:[NSString stringWithUTF8String:[self itemData].bytes]];
-    }
+	} 
+	
 	
 	return parsedDict;
 }

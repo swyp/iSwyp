@@ -50,6 +50,7 @@
 		
 		[_mapPreviewVC.view removeFromSuperview];
 		[_webPreviewVC.view removeFromSuperview];
+		[_dayPreviewVC.view removeFromSuperview];
 		
 		UIView * previewView	=	[self previewVCForHistoryItem:displayedHistoryItem].view;
 		[self.view addSubview:previewView];

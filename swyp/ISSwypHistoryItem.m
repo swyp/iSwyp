@@ -92,7 +92,7 @@
 }
 
 -(void) performExportAction:(swypHistoryItemExportAction)exportAction withSendingViewController:(UIViewController*)controller{
-	if (exportAction ==swypHistoryItemExportActionOpenInMaps){
+	if (exportAction == swypHistoryItemExportActionOpenInMaps){
 		NSDictionary * mapsDict		=	[self itemDataDictionaryRep];
 		NSString * coordinates		=	[mapsDict valueForKey:@"coord"];
 		NSString * address			=	[mapsDict valueForKey:@"address"];
@@ -103,7 +103,7 @@
 			if (StringHasText(address)){
 				urlToOpen	=	[NSString stringWithFormat:@"http://maps.google.com/maps?q=%@&near=%@",[address stringByAddingPercentEscapesUsingEncoding:kCFStringEncodingUTF8],coordinates];
 			}
-		}else if (StringHasText(address)){
+		} else if (StringHasText(address)){
 			urlToOpen	=	[NSString stringWithFormat:@"http://maps.google.com/maps?q=%@",[address stringByAddingPercentEscapesUsingEncoding:kCFStringEncodingUTF8]];
 		}
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlToOpen]];

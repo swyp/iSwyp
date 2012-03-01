@@ -56,9 +56,8 @@
         return [self.text dataUsingEncoding:NSUTF8StringEncoding];
     } else if ([self.itemType isFileType:[NSString swypAddressFileType]]){
         NSDictionary *theData = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 self.address, @"address", 
-                                 [self.delegate getThumbnail], @"thumbnail", nil];
-        return [NSKeyedArchiver archivedDataWithRootObject:theData];
+                                 self.address, @"address", nil];
+        return [[theData jsonStringValue] dataUsingEncoding:NSUTF8StringEncoding];
     } else {
         NSLog(@"Unexpected itemType. Could not come up with item data.");
         return nil;

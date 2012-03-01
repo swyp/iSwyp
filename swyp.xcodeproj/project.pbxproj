@@ -139,6 +139,9 @@
 		79925D5F14E6C34900FE2412 /* ISSwypHistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 79925D5E14E6C34900FE2412 /* ISSwypHistoryItem.m */; };
 		79925D6014E6C35E00FE2412 /* ISSwypHistoryItem.h in Sources */ = {isa = PBXBuildFile; fileRef = 79925D5D14E6C34900FE2412 /* ISSwypHistoryItem.h */; };
 		79C6A8C014FB2083005EB540 /* ISPreviewCalendarDayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C6A8BF14FB2083005EB540 /* ISPreviewCalendarDayVC.m */; };
+		79C6A8D714FEFE73005EB540 /* swypDraftIcon57.png in Resources */ = {isa = PBXBuildFile; fileRef = 79C6A8D414FEFE73005EB540 /* swypDraftIcon57.png */; };
+		79C6A8D814FEFE73005EB540 /* swypDraftIcon72.png in Resources */ = {isa = PBXBuildFile; fileRef = 79C6A8D514FEFE73005EB540 /* swypDraftIcon72.png */; };
+		79C6A8D914FEFE73005EB540 /* swypDraftIcon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 79C6A8D614FEFE73005EB540 /* swypDraftIcon114.png */; };
 		79CE219114F5A03E00930A78 /* ISCalendarEventRenderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CE219014F5A03E00930A78 /* ISCalendarEventRenderVC.m */; };
 		79F213EC14E6B37D00442CD2 /* UIWindow+ISUXAddons.m in Sources */ = {isa = PBXBuildFile; fileRef = 79F213EB14E6B37D00442CD2 /* UIWindow+ISUXAddons.m */; };
 /* End PBXBuildFile section */
@@ -346,6 +349,9 @@
 		79925D5E14E6C34900FE2412 /* ISSwypHistoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISSwypHistoryItem.m; path = swyp/ISSwypHistoryItem.m; sourceTree = "<group>"; };
 		79C6A8BE14FB2082005EB540 /* ISPreviewCalendarDayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISPreviewCalendarDayVC.h; path = swyp/ISPreviewCalendarDayVC.h; sourceTree = "<group>"; };
 		79C6A8BF14FB2083005EB540 /* ISPreviewCalendarDayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISPreviewCalendarDayVC.m; path = swyp/ISPreviewCalendarDayVC.m; sourceTree = "<group>"; };
+		79C6A8D414FEFE73005EB540 /* swypDraftIcon57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = swypDraftIcon57.png; path = resources/swypDraftIcon57.png; sourceTree = SOURCE_ROOT; };
+		79C6A8D514FEFE73005EB540 /* swypDraftIcon72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = swypDraftIcon72.png; path = resources/swypDraftIcon72.png; sourceTree = SOURCE_ROOT; };
+		79C6A8D614FEFE73005EB540 /* swypDraftIcon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = swypDraftIcon114.png; path = resources/swypDraftIcon114.png; sourceTree = SOURCE_ROOT; };
 		79CE218F14F5A03E00930A78 /* ISCalendarEventRenderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISCalendarEventRenderVC.h; path = swyp/ISCalendarEventRenderVC.h; sourceTree = "<group>"; };
 		79CE219014F5A03E00930A78 /* ISCalendarEventRenderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISCalendarEventRenderVC.m; path = swyp/ISCalendarEventRenderVC.m; sourceTree = "<group>"; };
 		79F213EA14E6B37D00442CD2 /* UIWindow+ISUXAddons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+ISUXAddons.h"; sourceTree = "<group>"; };
@@ -458,6 +464,9 @@
 		79527C7414E0CE7B003002AF /* App Icons */ = {
 			isa = PBXGroup;
 			children = (
+				79C6A8D414FEFE73005EB540 /* swypDraftIcon57.png */,
+				79C6A8D514FEFE73005EB540 /* swypDraftIcon72.png */,
+				79C6A8D614FEFE73005EB540 /* swypDraftIcon114.png */,
 			);
 			name = "App Icons";
 			sourceTree = "<group>";
@@ -622,13 +631,13 @@
 		7962726D14DC818A00E5D17A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				79527C7414E0CE7B003002AF /* App Icons */,
 				3ED275BB14F70087008D78BD /* FlatButtonSmall.png */,
 				3ED275BC14F70087008D78BD /* FlatButtonSmall@2x.png */,
 				3ED275BD14F70087008D78BD /* FlatButtonSmallPressed.png */,
 				3ED275BE14F70087008D78BD /* FlatButtonSmallPressed@2x.png */,
 				3E8E300B14EB381A008F08B5 /* handmadepaper@2x.png */,
 				7959A55814E7729100020F6B /* Kal.bundle */,
-				79527C7414E0CE7B003002AF /* App Icons */,
 				3E06EB5F14DC9A6400BA055D /* photos.png */,
 				3E06EB6014DC9A6400BA055D /* photos@2x.png */,
 				3E06EB5B14DC99CD00BA055D /* calendar.png */,
@@ -865,6 +874,9 @@
 				3ED275C114F70087008D78BD /* FlatButtonSmallPressed.png in Resources */,
 				3ED275C214F70087008D78BD /* FlatButtonSmallPressed@2x.png in Resources */,
 				3E6B180614F9BCCC0003AC17 /* grippers@2x.png in Resources */,
+				79C6A8D714FEFE73005EB540 /* swypDraftIcon57.png in Resources */,
+				79C6A8D814FEFE73005EB540 /* swypDraftIcon72.png in Resources */,
+				79C6A8D914FEFE73005EB540 /* swypDraftIcon114.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,7 @@
 #import <EventKitUI/EventKitUI.h>
 
 @interface ISPreviewCalendarDayVC : UIViewController <MADayViewDelegate, MADayViewDataSource, EKEventEditViewDelegate>
+
 @property (nonatomic, strong) NSMutableArray *	displayedEvents;
 @property (nonatomic, strong) MADayView *		dayView;
 @property (nonatomic, strong) EKEventStore *	localStore;

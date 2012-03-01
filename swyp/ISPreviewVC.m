@@ -63,8 +63,16 @@
 -(UIViewController*) previewVCForHistoryItem:(ISSwypHistoryItem*)historyItem{
 	UIViewController * swypItemVC	=	nil;
 	
+    /*
+     Goofy.
+     why dies loadContentFromHistoryItem return the item? Seems more reasonable to do:
+     swypItemVC = [self mapPreviewVC];
+     swypItemVC loadPreviewImageFromHistoryItem...
+     return swypItemVC;
+    */
+    
 	if ([[historyItem itemType] isFileType:[NSString swypAddressFileType]]){
-		swypItemVC	=	[[self webPreviewVC] loadPreviewImageFromHistoryItem:historyItem];
+		swypItemVC	=	[[self mapPreviewVC] loadContentFromHistoryItem:historyItem];
 	}else if ([[historyItem itemType] isFileType:[NSString swypContactFileType]]){
 		swypItemVC	=	[[self webPreviewVC] loadPreviewImageFromHistoryItem:historyItem];		
 	}else if ([[historyItem itemType] isFileType:[NSString swypCalendarEventsFileType]]){

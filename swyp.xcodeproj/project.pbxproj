@@ -32,6 +32,9 @@
 		3E9A376614DCBAC7007B6DD7 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9A376214DCBAC7007B6DD7 /* UIImage+Resize.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3E9A376714DCBAC7007B6DD7 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E9A376414DCBAC7007B6DD7 /* UIImage+RoundedCorner.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3E9A376D14DCC0EB007B6DD7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9A376B14DCC0E3007B6DD7 /* CoreLocation.framework */; };
+		3EB246BF1500338F004DF5EE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EB246BE1500338F004DF5EE /* MapKit.framework */; };
+		3EB246C215003BE6004DF5EE /* ISAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB246C115003BE6004DF5EE /* ISAnnotation.m */; };
+		3EB246C515004002004DF5EE /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB246C415004002004DF5EE /* MKMapView+ZoomLevel.m */; };
 		3EC3F0AA14DD8BD100BAFD1A /* ISDoodleRecognizingGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3F0A914DD8BD100BAFD1A /* ISDoodleRecognizingGestureRecognizer.m */; };
 		3EC3F0C014DD9B3600BAFD1A /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC3F0BF14DD9B3600BAFD1A /* NSString+URLEncoding.m */; };
 		3ED275BF14F70087008D78BD /* FlatButtonSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED275BB14F70087008D78BD /* FlatButtonSmall.png */; };
@@ -213,6 +216,11 @@
 		3E9A376314DCBAC7007B6DD7 /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
 		3E9A376414DCBAC7007B6DD7 /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 		3E9A376B14DCC0E3007B6DD7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		3EB246BE1500338F004DF5EE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		3EB246C015003BE6004DF5EE /* ISAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISAnnotation.h; path = swyp/ISAnnotation.h; sourceTree = "<group>"; };
+		3EB246C115003BE6004DF5EE /* ISAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISAnnotation.m; path = swyp/ISAnnotation.m; sourceTree = "<group>"; };
+		3EB246C315004002004DF5EE /* MKMapView+ZoomLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+ZoomLevel.h"; sourceTree = "<group>"; };
+		3EB246C415004002004DF5EE /* MKMapView+ZoomLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+ZoomLevel.m"; sourceTree = "<group>"; };
 		3EC3F0A814DD8BD100BAFD1A /* ISDoodleRecognizingGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISDoodleRecognizingGestureRecognizer.h; path = swyp/ISDoodleRecognizingGestureRecognizer.h; sourceTree = "<group>"; };
 		3EC3F0A914DD8BD100BAFD1A /* ISDoodleRecognizingGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISDoodleRecognizingGestureRecognizer.m; path = swyp/ISDoodleRecognizingGestureRecognizer.m; sourceTree = "<group>"; };
 		3EC3F0BE14DD9B3600BAFD1A /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+URLEncoding.h"; path = "NSString Additions/NSString+URLEncoding.h"; sourceTree = "<group>"; };
@@ -365,6 +373,7 @@
 			files = (
 				7959A54714E7698100020F6B /* libKal.a in Frameworks */,
 				7962720A14DC799000E5D17A /* liblibSwyp.a in Frameworks */,
+				3EB246BF1500338F004DF5EE /* MapKit.framework in Frameworks */,
 				3E3BF4C914F9C7F80089A9E7 /* AddressBookUI.framework in Frameworks */,
 				3E3BF4C714F9C6D70089A9E7 /* AddressBook.framework in Frameworks */,
 				7959A57914E77B9B00020F6B /* EventKit.framework in Frameworks */,
@@ -413,6 +422,8 @@
 		3E9A375714DCB93C007B6DD7 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				3EB246C315004002004DF5EE /* MKMapView+ZoomLevel.h */,
+				3EB246C415004002004DF5EE /* MKMapView+ZoomLevel.m */,
 				79527C7114E0CD06003002AF /* NSDate+Relative.h */,
 				79527C7214E0CD06003002AF /* NSDate+Relative.m */,
 				3EC3F0BD14DD9B0600BAFD1A /* NSString Additions */,
@@ -478,6 +489,8 @@
 				79527C8914E36254003002AF /* ISPreviewVC.m */,
 				79527C9514E3692D003002AF /* ISPreviewMapViewVC.h */,
 				79527C9614E3692E003002AF /* ISPreviewMapViewVC.m */,
+				3EB246C015003BE6004DF5EE /* ISAnnotation.h */,
+				3EB246C115003BE6004DF5EE /* ISAnnotation.m */,
 				79527C9814E36944003002AF /* ISPreviewWebViewVC.h */,
 				79527C9914E36944003002AF /* ISPreviewWebViewVC.m */,
 				79C6A8BE14FB2082005EB540 /* ISPreviewCalendarDayVC.h */,
@@ -528,6 +541,7 @@
 		796271D014DC788200E5D17A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3EB246BE1500338F004DF5EE /* MapKit.framework */,
 				3E3BF4C814F9C7F80089A9E7 /* AddressBookUI.framework */,
 				3E3BF4C514F9C6C80089A9E7 /* AddressBook.framework */,
 				7959A57514E77B8700020F6B /* EventKit.framework */,
@@ -970,6 +984,8 @@
 				79CE219114F5A03E00930A78 /* ISCalendarEventRenderVC.m in Sources */,
 				3E9172A714F84AFD00F9609D /* ISContactManager.m in Sources */,
 				79C6A8C014FB2083005EB540 /* ISPreviewCalendarDayVC.m in Sources */,
+				3EB246C215003BE6004DF5EE /* ISAnnotation.m in Sources */,
+				3EB246C515004002004DF5EE /* MKMapView+ZoomLevel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

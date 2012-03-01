@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
+#import "MKMapView+ZoomLevel.h"
+#import "ISSwypHistoryItem.h"
 
-@interface ISPreviewMapViewVC : UIViewController
+@interface ISPreviewMapViewVC : UIViewController {
+    MKMapView *_mapView;
+}
+
+- (id)loadContentFromHistoryItem:(ISSwypHistoryItem *)item;
 
 @end

@@ -54,7 +54,8 @@
 - (BOOL)shouldUpdateCellWithObject:(id)object{
 	if (_historyItem != object){
 		_historyItem	=	object;
-		[self.dateLabel setText:[[_historyItem dateAdded] distanceOfTimeInWordsToNow]];
+		[self.dateLabel setText:[NSString stringWithFormat:@"%@ ago", 
+                                 [[_historyItem dateAdded] distanceOfTimeInWordsToNow]]];
 		[self updateCellContents];
 		return TRUE;
 	}

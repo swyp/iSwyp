@@ -13,7 +13,7 @@
 @implementation ISAppDelegate
 
 @synthesize window = _window;
-@synthesize swypActionVC = _swypActionVC;
+@synthesize swypSpace = _swypSpace;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
@@ -24,8 +24,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor blackColor];
 	
-	self.swypActionVC	=	[[ISSwypActionSelectorVC alloc] initWithObjectContext:[self managedObjectContext]];
-	[self.window setRootViewController:self.swypActionVC];
+	self.swypSpace		=	[[ISUnifiedSwypSpace alloc] initWithObjectContext:[self managedObjectContext] swypWorkspace:[swypWorkspaceViewController sharedSwypWorkspace]];
+	
+	[self.window setRootViewController:self.swypSpace];
     [self.window makeKeyAndVisible];
 	
 	if ([[[UIApplication sharedApplication] appRunCount] intValue] == 0){
@@ -67,7 +68,7 @@
 	 Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 	 */
     
-    [self.swypActionVC updatePasteboard];
+//    [self.swypActionVC updatePasteboard];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

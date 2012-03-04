@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ISSwypActionSelectorVC.h"
+#import "ISUnifiedSwypSpace.h"
+
 
 @interface ISAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) ISSwypActionSelectorVC *swypActionVC;
+@property (strong, nonatomic) ISUnifiedSwypSpace *swypSpace;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;

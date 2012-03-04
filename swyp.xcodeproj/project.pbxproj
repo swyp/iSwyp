@@ -146,6 +146,7 @@
 		79C6A8D814FEFE73005EB540 /* swypDraftIcon72.png in Resources */ = {isa = PBXBuildFile; fileRef = 79C6A8D514FEFE73005EB540 /* swypDraftIcon72.png */; };
 		79C6A8D914FEFE73005EB540 /* swypDraftIcon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 79C6A8D614FEFE73005EB540 /* swypDraftIcon114.png */; };
 		79CE219114F5A03E00930A78 /* ISCalendarEventRenderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CE219014F5A03E00930A78 /* ISCalendarEventRenderVC.m */; };
+		79F1A2A71503C74B00E284E4 /* ISUnifiedSwypSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 79F1A2A61503C74B00E284E4 /* ISUnifiedSwypSpace.m */; };
 		79F213EC14E6B37D00442CD2 /* UIWindow+ISUXAddons.m in Sources */ = {isa = PBXBuildFile; fileRef = 79F213EB14E6B37D00442CD2 /* UIWindow+ISUXAddons.m */; };
 /* End PBXBuildFile section */
 
@@ -362,6 +363,8 @@
 		79C6A8D614FEFE73005EB540 /* swypDraftIcon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = swypDraftIcon114.png; path = resources/swypDraftIcon114.png; sourceTree = SOURCE_ROOT; };
 		79CE218F14F5A03E00930A78 /* ISCalendarEventRenderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISCalendarEventRenderVC.h; path = swyp/ISCalendarEventRenderVC.h; sourceTree = "<group>"; };
 		79CE219014F5A03E00930A78 /* ISCalendarEventRenderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISCalendarEventRenderVC.m; path = swyp/ISCalendarEventRenderVC.m; sourceTree = "<group>"; };
+		79F1A2A51503C74B00E284E4 /* ISUnifiedSwypSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISUnifiedSwypSpace.h; path = swyp/ISUnifiedSwypSpace.h; sourceTree = "<group>"; };
+		79F1A2A61503C74B00E284E4 /* ISUnifiedSwypSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISUnifiedSwypSpace.m; path = swyp/ISUnifiedSwypSpace.m; sourceTree = "<group>"; };
 		79F213EA14E6B37D00442CD2 /* UIWindow+ISUXAddons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+ISUXAddons.h"; sourceTree = "<group>"; };
 		79F213EB14E6B37D00442CD2 /* UIWindow+ISUXAddons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+ISUXAddons.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -603,12 +606,11 @@
 		796271F314DC790100E5D17A /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				79F1A2A41503C6DF00E284E4 /* Unified View */,
 				7959A62414F2D6D600020F6B /* Renders */,
-				7962726814DC7D2700E5D17A /* ISSwypActionSelectorVC.h */,
-				7962726914DC7D2700E5D17A /* ISSwypActionSelectorVC.m */,
 				79527C8714E3620F003002AF /* history item preview */,
 				7962735014DCBF0E00E5D17A /* History View */,
-				3E06EB4314DC89DE00BA055D /* Tab Bar */,
+				79F1A2A81503D18C00E284E4 /* Deprecated tab */,
 			);
 			name = "View Controllers";
 			path = ..;
@@ -773,6 +775,25 @@
 				7962735414DCBF3500E5D17A /* ISHistoryCell.m */,
 			);
 			name = "History View";
+			sourceTree = "<group>";
+		};
+		79F1A2A41503C6DF00E284E4 /* Unified View */ = {
+			isa = PBXGroup;
+			children = (
+				79F1A2A51503C74B00E284E4 /* ISUnifiedSwypSpace.h */,
+				79F1A2A61503C74B00E284E4 /* ISUnifiedSwypSpace.m */,
+			);
+			name = "Unified View";
+			sourceTree = "<group>";
+		};
+		79F1A2A81503D18C00E284E4 /* Deprecated tab */ = {
+			isa = PBXGroup;
+			children = (
+				3E06EB4314DC89DE00BA055D /* Tab Bar */,
+				7962726814DC7D2700E5D17A /* ISSwypActionSelectorVC.h */,
+				7962726914DC7D2700E5D17A /* ISSwypActionSelectorVC.m */,
+			);
+			name = "Deprecated tab";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -986,6 +1007,7 @@
 				79C6A8C014FB2083005EB540 /* ISPreviewCalendarDayVC.m in Sources */,
 				3EB246C215003BE6004DF5EE /* ISAnnotation.m in Sources */,
 				3EB246C515004002004DF5EE /* MKMapView+ZoomLevel.m in Sources */,
+				79F1A2A71503C74B00E284E4 /* ISUnifiedSwypSpace.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -609,7 +609,7 @@
 				79F1A2A41503C6DF00E284E4 /* Unified View */,
 				7959A62414F2D6D600020F6B /* Renders */,
 				79527C8714E3620F003002AF /* history item preview */,
-				7962735014DCBF0E00E5D17A /* History View */,
+				7962735014DCBF0E00E5D17A /* depricated History View */,
 				79F1A2A81503D18C00E284E4 /* Deprecated tab */,
 			);
 			name = "View Controllers";
@@ -764,7 +764,7 @@
 			path = nimbus/src/networkimage/src;
 			sourceTree = SOURCE_ROOT;
 		};
-		7962735014DCBF0E00E5D17A /* History View */ = {
+		7962735014DCBF0E00E5D17A /* depricated History View */ = {
 			isa = PBXGroup;
 			children = (
 				7962726514DC7CD000E5D17A /* ISHistoryScrollVC.h */,
@@ -774,7 +774,7 @@
 				7962735314DCBF3500E5D17A /* ISHistoryCell.h */,
 				7962735414DCBF3500E5D17A /* ISHistoryCell.m */,
 			);
-			name = "History View";
+			name = "depricated History View";
 			sourceTree = "<group>";
 		};
 		79F1A2A41503C6DF00E284E4 /* Unified View */ = {

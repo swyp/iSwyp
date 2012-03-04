@@ -24,7 +24,7 @@
 }
 @property (nonatomic, assign) id<swypContentDataSourceDelegate>	datasourceDelegate;
 @property (nonatomic, strong) NSManagedObjectContext *			objectContext;
-@property (nonatomic, strong) swypWorkspaceViewController * swypWorkspace;
+@property (nonatomic, strong) swypWorkspaceViewController *		swypWorkspace;
 @property (nonatomic, strong) swypWorkspaceView *				workspaceView;
 @property (nonatomic, strong) NSMutableDictionary *				contentThumbnailForPendingFilesBySession;
 

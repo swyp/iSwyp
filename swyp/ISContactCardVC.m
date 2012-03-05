@@ -266,6 +266,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
             textField.keyboardType = UIKeyboardTypeNumberPad;
             break;
         case kEmailField:
+            textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
             textField.keyboardType = UIKeyboardTypeEmailAddress;
             textField.returnKeyType = UIReturnKeyDone;
             break;

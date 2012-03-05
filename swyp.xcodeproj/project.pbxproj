@@ -18,6 +18,9 @@
 		3E06EB5E14DC99CD00BA055D /* calendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E06EB5C14DC99CD00BA055D /* calendar@2x.png */; };
 		3E06EB6114DC9A6400BA055D /* photos.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E06EB5F14DC9A6400BA055D /* photos.png */; };
 		3E06EB6214DC9A6400BA055D /* photos@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E06EB6014DC9A6400BA055D /* photos@2x.png */; };
+		3E0AA1C615045B7800A1D21F /* SSToolkit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3E0AA1C515045B7800A1D21F /* SSToolkit.bundle */; };
+		3E0AA1D615045BC400A1D21F /* libSSToolkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E0AA1D115045B9300A1D21F /* libSSToolkit.a */; };
+		3E0AA1D815045C4800A1D21F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E0AA1D715045C4800A1D21F /* QuartzCore.framework */; };
 		3E2B4F8D14E583890090D948 /* ISPasteboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E2B4F8C14E583890090D948 /* ISPasteboardView.m */; };
 		3E2B4F9014E58E530090D948 /* ISPasteboardObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E2B4F8F14E58E520090D948 /* ISPasteboardObject.m */; };
 		3E2B4F9314E5CA620090D948 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E2B4F9114E5CA520090D948 /* AssetsLibrary.framework */; };
@@ -151,6 +154,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3E0AA1D015045B9300A1D21F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E0AA1C715045B9300A1D21F /* SSToolkit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = SSToolkit;
+		};
+		3E0AA1D215045B9300A1D21F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E0AA1C715045B9300A1D21F /* SSToolkit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B239101D1357DC3E00ADE21B;
+			remoteInfo = SSToolkitTests;
+		};
+		3E0AA1D415045BB200A1D21F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3E0AA1C715045B9300A1D21F /* SSToolkit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = SSToolkit;
+		};
 		7959A54314E7696800020F6B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7959A53C14E7696700020F6B /* Kal.xcodeproj */;
@@ -196,6 +220,9 @@
 		3E06EB5C14DC99CD00BA055D /* calendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "calendar@2x.png"; path = "resources/calendar@2x.png"; sourceTree = SOURCE_ROOT; };
 		3E06EB5F14DC9A6400BA055D /* photos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = photos.png; path = resources/photos.png; sourceTree = SOURCE_ROOT; };
 		3E06EB6014DC9A6400BA055D /* photos@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "photos@2x.png"; path = "resources/photos@2x.png"; sourceTree = SOURCE_ROOT; };
+		3E0AA1C515045B7800A1D21F /* SSToolkit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SSToolkit.bundle; path = SSToolkit/Resources/SSToolkit.bundle; sourceTree = SOURCE_ROOT; };
+		3E0AA1C715045B9300A1D21F /* SSToolkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SSToolkit.xcodeproj; path = SSToolkit/SSToolkit.xcodeproj; sourceTree = "<group>"; };
+		3E0AA1D715045C4800A1D21F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3E2B4F8B14E583890090D948 /* ISPasteboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISPasteboardView.h; path = swyp/ISPasteboardView.h; sourceTree = "<group>"; };
 		3E2B4F8C14E583890090D948 /* ISPasteboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISPasteboardView.m; path = swyp/ISPasteboardView.m; sourceTree = "<group>"; };
 		3E2B4F8E14E58E520090D948 /* ISPasteboardObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISPasteboardObject.h; path = swyp/ISPasteboardObject.h; sourceTree = "<group>"; };
@@ -374,6 +401,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E0AA1D615045BC400A1D21F /* libSSToolkit.a in Frameworks */,
 				7959A54714E7698100020F6B /* libKal.a in Frameworks */,
 				7962720A14DC799000E5D17A /* liblibSwyp.a in Frameworks */,
 				3EB246BF1500338F004DF5EE /* MapKit.framework in Frameworks */,
@@ -385,6 +413,7 @@
 				3E9A376D14DCC0EB007B6DD7 /* CoreLocation.framework in Frameworks */,
 				3E9A375614DCB377007B6DD7 /* MobileCoreServices.framework in Frameworks */,
 				796271D214DC788200E5D17A /* UIKit.framework in Frameworks */,
+				3E0AA1D815045C4800A1D21F /* QuartzCore.framework in Frameworks */,
 				796271D414DC788200E5D17A /* Foundation.framework in Frameworks */,
 				796271D614DC788200E5D17A /* CoreGraphics.framework in Frameworks */,
 				796271D814DC788200E5D17A /* CoreData.framework in Frameworks */,
@@ -406,6 +435,15 @@
 				7959A55614E769F000020F6B /* ISTabVC.m */,
 			);
 			name = "Tab Bar";
+			sourceTree = "<group>";
+		};
+		3E0AA1C815045B9300A1D21F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3E0AA1D115045B9300A1D21F /* libSSToolkit.a */,
+				3E0AA1D315045B9300A1D21F /* SSToolkitTests.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		3E9A375714DCB93C007B6DD7 /* Additions */ = {
@@ -530,6 +568,7 @@
 		796271D014DC788200E5D17A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3E0AA1D715045C4800A1D21F /* QuartzCore.framework */,
 				3EB246BE1500338F004DF5EE /* MapKit.framework */,
 				3E3BF4C814F9C7F80089A9E7 /* AddressBookUI.framework */,
 				3E3BF4C514F9C6C80089A9E7 /* AddressBook.framework */,
@@ -605,6 +644,7 @@
 		796271F414DC790300E5D17A /* External Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3E0AA1C715045B9300A1D21F /* SSToolkit.xcodeproj */,
 				7959A53C14E7696700020F6B /* Kal.xcodeproj */,
 				7962721514DC7A3D00E5D17A /* Nimbus */,
 				796271F514DC792C00E5D17A /* libSwyp.xcodeproj */,
@@ -633,6 +673,7 @@
 		7962726D14DC818A00E5D17A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3E0AA1C515045B7800A1D21F /* SSToolkit.bundle */,
 				79527C7414E0CE7B003002AF /* App Icons */,
 				3ED275BB14F70087008D78BD /* FlatButtonSmall.png */,
 				3ED275BC14F70087008D78BD /* FlatButtonSmall@2x.png */,
@@ -818,6 +859,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3E0AA1D515045BB200A1D21F /* PBXTargetDependency */,
 				7959A54614E7697C00020F6B /* PBXTargetDependency */,
 				7962720914DC798800E5D17A /* PBXTargetDependency */,
 			);
@@ -854,6 +896,10 @@
 					ProductGroup = 796271F614DC792C00E5D17A /* Products */;
 					ProjectRef = 796271F514DC792C00E5D17A /* libSwyp.xcodeproj */;
 				},
+				{
+					ProductGroup = 3E0AA1C815045B9300A1D21F /* Products */;
+					ProjectRef = 3E0AA1C715045B9300A1D21F /* SSToolkit.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -863,6 +909,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		3E0AA1D115045B9300A1D21F /* libSSToolkit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSSToolkit.a;
+			remoteRef = 3E0AA1D015045B9300A1D21F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3E0AA1D315045B9300A1D21F /* SSToolkitTests.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SSToolkitTests.app;
+			remoteRef = 3E0AA1D215045B9300A1D21F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		7959A54414E7696800020F6B /* libKal.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -920,6 +980,7 @@
 				79C6A8D714FEFE73005EB540 /* swypDraftIcon57.png in Resources */,
 				79C6A8D814FEFE73005EB540 /* swypDraftIcon72.png in Resources */,
 				79C6A8D914FEFE73005EB540 /* swypDraftIcon114.png in Resources */,
+				3E0AA1C615045B7800A1D21F /* SSToolkit.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1022,6 +1083,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3E0AA1D515045BB200A1D21F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SSToolkit;
+			targetProxy = 3E0AA1D415045BB200A1D21F /* PBXContainerItemProxy */;
+		};
 		7959A54614E7697C00020F6B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Kal;
@@ -1101,6 +1167,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/libSwyp\"/**",
 					"\"$(SRCROOT)/kal\"/**",
+					"\"$(SRCROOT)/SSToolkit\"/**",
 				);
 				INFOPLIST_FILE = "swyp/swyp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
@@ -1120,6 +1187,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/libSwyp\"/**",
 					"\"$(SRCROOT)/kal\"/**",
+					"\"$(SRCROOT)/SSToolkit\"/**",
 				);
 				INFOPLIST_FILE = "swyp/swyp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;

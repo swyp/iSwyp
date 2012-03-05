@@ -7,15 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NimbusModels.h"
+#import <SSToolkit/SSCollectionViewItem.h>
 #import "ISSwypHistoryItem.h"
 
-@interface ISHistoryCell : UITableViewCell <NICell>
+@interface ISHistoryCell : SSCollectionViewItem
 
 @property (nonatomic, strong) ISSwypHistoryItem	*	historyItem;
-@property (nonatomic, strong) UIImageView *			contentPreviewView;
 @property (nonatomic, retain) UILabel *				dateLabel;
 
--(void)	updateCellContents;
+- (void)updateCellContents;
 
 @end

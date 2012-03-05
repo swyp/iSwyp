@@ -10,22 +10,19 @@
 #import "NSDate+Relative.h"
 
 @implementation ISHistoryCell
-@synthesize historyItem	=	_historyItem, contentPreviewView = _contentPreviewView;
-@synthesize dateLabel;
+@synthesize historyItem = _historyItem;
+@synthesize dateLabel = _dateLabel;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (id)initWithStyle:(SSCollectionViewItemStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-		self.selectionStyle		=	UITableViewCellSelectionStyleGray;
-				
-		[self setHeight:[[self class] heightForObject:nil atIndexPath:nil tableView:nil]];//otherwise frame is messed up for inset drawing
-		
+
 		UIView	* backgroundView		=	[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
 		[backgroundView setAutoresizingMask:UIViewAutoresizingFlexibleWidth |UIViewAutoresizingFlexibleHeight];
 		backgroundView.backgroundColor	=	[UIColor whiteColor];
 		[backgroundView setAlpha:.7];
 		self.backgroundView				=	backgroundView;
 		
-		self.dateLabel			=	[[UILabel alloc] initWithFrame:CGRectMake(120, 8, 192, 20)];
+		self.dateLabel			=	[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, 20)];
         self.dateLabel.backgroundColor = [UIColor clearColor];
         self.dateLabel.textColor = [UIColor grayColor];
         self.dateLabel.highlightedTextColor = [UIColor whiteColor];
@@ -34,16 +31,11 @@
 		[self.dateLabel setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
 		[self addSubview:self.dateLabel];
 		
-		UIImageView* nwImgView		=	[[UIImageView alloc]	initWithFrame:CGRectMake(0, 0, 100, 100)];
-		nwImgView.backgroundColor = [UIColor clearColor];
-		[nwImgView setContentMode:UIViewContentModeScaleAspectFill];
-		[nwImgView setClipsToBounds:TRUE];
-		[nwImgView setAutoresizingMask:UIViewAutoresizingFlexibleRightMargin];
-		[self addSubview:nwImgView];
-		
-		[self setContentPreviewView:nwImgView];
-		
-		UILongPressGestureRecognizer * optionsPress	=	[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressForOptionsMenuOccured)];
+		[self.imageView setContentMode:UIViewContentModeScaleAspectFill];
+		[self.imageView setClipsToBounds:TRUE];
+				
+		UILongPressGestureRecognizer * optionsPress	=	[[UILongPressGestureRecognizer alloc] initWithTarget:self 
+                                                                                                    action:@selector(longPressForOptionsMenuOccured)];
 		[optionsPress setMinimumPressDuration:.4];
 		[self addGestureRecognizer:optionsPress];
 		
@@ -51,23 +43,17 @@
 	return self;
 }
 
-- (BOOL)shouldUpdateCellWithObject:(id)object{
-	if (_historyItem != object){
-		_historyItem	=	object;
+- (void)setHistoryItem:(ISSwypHistoryItem *)historyItem {
+	if (_historyItem != historyItem){
+		_historyItem	=	historyItem;
 		[self.dateLabel setText:[NSString stringWithFormat:@"%@ ago", 
                                  [[_historyItem dateAdded] distanceOfTimeInWordsToNow]]];
 		[self updateCellContents];
-		return TRUE;
 	}
-	return FALSE;
-}
-
-+ (CGFloat)heightForObject:(id)object atIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView{
-	return 100;
 }
 
 -(void)	updateCellContents{
-	[[self contentPreviewView] setImage:[UIImage imageWithData:[[self historyItem] itemPreviewImage]]];
+	[self.imageView setImage:[UIImage imageWithData:[self.historyItem itemPreviewImage]]];
 }
 
 
@@ -96,8 +82,10 @@
 	[self becomeFirstResponder];
 	
 	
-	UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:LocStr(@"Copy",@"MenuItem on history scroll view") action:@selector(copyPressed:)] ;
-	UIMenuItem *swypItem = [[UIMenuItem alloc] initWithTitle:LocStr(@"Swÿp",@"MenuItem on history scroll view") action:@selector(swypPressed:)] ;
+	UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:LocStr(@"Copy",@"MenuItem on history scroll view") 
+                                                      action:@selector(copyPressed:)] ;
+	UIMenuItem *swypItem = [[UIMenuItem alloc] initWithTitle:LocStr(@"Swÿp",@"MenuItem on history scroll view") 
+                                                      action:@selector(swypPressed:)] ;
 
 	UIMenuItem *exportItem =  nil;
 	NSIndexSet * supportedActions = [[self historyItem] supportedExportActions];

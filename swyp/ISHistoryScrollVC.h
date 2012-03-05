@@ -7,21 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NimbusModels.h"
 #import "ISSwypHistoryItem.h"
 #import "swypWorkspaceView.h"
 #import "ISPreviewVC.h"
+#import <SSToolkit/SSCollectionViewController.h>
 
 ///The view that shows a swyp workspace drop-zone in the header, and the history of all swyp-received content below
-@interface ISHistoryScrollVC : UIViewController <UITableViewDelegate, NSFetchedResultsControllerDelegate,swypConnectionSessionDataDelegate> {
-	
+@interface ISHistoryScrollVC : UIViewController <SSCollectionViewDelegate, SSCollectionViewDataSource, 
+                                                           NSFetchedResultsControllerDelegate,swypConnectionSessionDataDelegate> {
 	NSManagedObjectContext *		_objectContext;
 	swypWorkspaceViewController *	_swypWorkspace;
-	UITableView *					_swypHistoryTableView;
+    NSArray *                     _dataModel;
+    SSCollectionView *            _collectionView;
 }
 
 @property (nonatomic, strong) swypWorkspaceView *               swypDropZoneView;
-@property (nonatomic, strong) NITableViewModel *				    sectionedDataModel;
 @property (nonatomic, strong) NSFetchedResultsController*		resultsController;
 @property (nonatomic, assign) id<swypContentDataSourceDelegate>	datasourceDelegate;
 @property (nonatomic, strong) NSManagedObjectContext *			objectContext;
@@ -32,6 +32,6 @@
 
 //
 //private
--(NSFetchRequest*)	_newOrUpdatedFetchRequest;
--(void)				_refreshDataModel;
+- (NSFetchRequest*)	_newOrUpdatedFetchRequest;
+- (void)				_refreshDataModel;
 @end

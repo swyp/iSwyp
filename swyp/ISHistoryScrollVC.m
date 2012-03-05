@@ -6,19 +6,18 @@
 //  Copyright (c) 2012 ExoMachina. All rights reserved.
 //
 
-#import "ISHistoryScrollVC.h"
-#import "ISDoodleRecognizingGestureRecognizer.h"
 #include <QuartzCore/QuartzCore.h>
-
+#import "ISHistoryScrollVC.h"
+#import "ISHistoryCell.h"
 
 @implementation ISHistoryScrollVC
-@synthesize sectionedDataModel = _sectionedDataModel, resultsController = _resultsController, 
+@synthesize resultsController = _resultsController, 
             objectContext = _objectContext, previewVC = _previewVC, datasourceDelegate = _datasourceDelegate,
             contentThumbnailForPendingFilesBySession = _contentThumbnailForPendingFilesBySession;
 
 - (ISPreviewVC *)previewVC{
 	if (_previewVC == nil){
-		_previewVC	=	[[ISPreviewVC alloc] init];
+		_previewVC = [[ISPreviewVC alloc] init];
 	}
 	return _previewVC;
 }
@@ -35,14 +34,11 @@
 	return _resultsController;
 }
 
-- (NITableViewModel *) sectionedDataModel{
-	if (_sectionedDataModel == nil){
-		NSMutableArray	* sectionArray	=	[[NSMutableArray alloc] init];
-		NSArray	* historyItems			= [[self resultsController] fetchedObjects];
-		[sectionArray addObjectsFromArray:historyItems];
-		_sectionedDataModel	=	[[NITableViewModel alloc] initWithSectionedArray:sectionArray delegate:(id)[NICellFactory class]];
+- (NSArray *) dataModel{
+	if (_dataModel == nil){
+		_dataModel = [[self resultsController] fetchedObjects];
 	}
-	return _sectionedDataModel;
+	return _dataModel;
 }
 
 #pragma mark - UIViewController
@@ -73,17 +69,14 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
 	
-	[self.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"historyBGTile"]]];
 	
-	_swypHistoryTableView	= [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height) style:UITableViewStylePlain];
-	[_swypHistoryTableView setBackgroundColor:[UIColor clearColor]];
-	[_swypHistoryTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
-	[_swypHistoryTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-	[_swypHistoryTableView setDelegate:self];
-	
-	[_swypHistoryTableView setTableHeaderView:[self swypDropZoneView]]; 
-	[self.view addSubview:_swypHistoryTableView];
+    _collectionView = [[SSCollectionView alloc] initWithFrame:self.view.frame];
+    [_collectionView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    [_collectionView setBackgroundColor:[UIColor clearColor]];
+	[_collectionView setDelegate:self];	
+    [_collectionView setDataSource:self];
+    [self.view addSubview:_collectionView];
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
                                                                                 target:self 
@@ -129,8 +122,7 @@
 }
 
 -(void)	_refreshDataModel{
-	_sectionedDataModel = nil;
-	[_swypHistoryTableView setDataSource:[self sectionedDataModel]];
+    [_collectionView reloadData];
 }
 
 - (void)_done:(id)sender {
@@ -139,25 +131,35 @@
 
 #pragma mark - delegation
 
-#pragma mark UITableViewDelegate
--(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-	CGFloat height	=	0;
-	
-	id object  =  [(NITableViewModel*)[tableView dataSource] objectAtIndexPath:indexPath];
-	id class	=	[object cellClass];
-	if ([class respondsToSelector:@selector(heightForObject:atIndexPath:tableView:)]){
-		height	=	[class heightForObject:object atIndexPath:indexPath tableView:tableView];
-	}
-	return height;
+#pragma mark SSCollectionViewDelegate
+- (CGSize)collectionView:(SSCollectionView *)aCollectionView itemSizeForSection:(NSUInteger)section{
+	return CGSizeMake(100, 100);
 }
 
--(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-	[tableView deselectRowAtIndexPath:indexPath animated:TRUE];
+- (void)collectionView:(SSCollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+	[aCollectionView deselectItemAtIndexPath:indexPath animated:TRUE];
 	
-	ISSwypHistoryItem* object  =  [(NITableViewModel*)[tableView dataSource] objectAtIndexPath:indexPath];
-	[[self previewVC] setDisplayedHistoryItem:object];
+	ISHistoryCell *cell = [aCollectionView itemForIndexPath:indexPath];
+	[[self previewVC] setDisplayedHistoryItem:cell.historyItem];
 	[[self navigationController] pushViewController:[self previewVC] animated:TRUE];
 }
+
+#pragma mark SSCollectionViewDatasource
+
+- (NSUInteger)collectionView:(SSCollectionView *)aCollectionView numberOfItemsInSection:(NSUInteger)section {
+    return [self dataModel].count;
+}
+
+- (SSCollectionViewItem *)collectionView:(SSCollectionView *)aCollectionView itemForIndexPath:(NSIndexPath *)indexPath {
+    ISHistoryCell *cell = [aCollectionView dequeueReusableItemWithIdentifier:@"History Cell"];
+    if (cell == nil){
+        cell = [[ISHistoryCell alloc] initWithStyle:SSCollectionViewItemStyleImage reuseIdentifier:@"History Cell"];
+        cell.historyItem = [[self dataModel] objectAtIndex:indexPath.row];
+    }
+
+    return cell;
+}
+
 
 #pragma mark NSFetchedResultsController
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller{
@@ -194,7 +196,7 @@
 		return;
 	}
 	
-	ISSwypHistoryItem* item	=	[NSEntityDescription insertNewObjectForEntityForName:@"SwypHistoryItem" inManagedObjectContext:[self objectContext]];
+	ISSwypHistoryItem* item =	[NSEntityDescription insertNewObjectForEntityForName:@"SwypHistoryItem" inManagedObjectContext:[self objectContext]];
 	NSData * thumbnail	=	[self.contentThumbnailForPendingFilesBySession objectForKey:[NSValue valueWithNonretainedObject:session]];
 	if ([thumbnail length] > 0){
 		[item setItemPreviewImage:thumbnail];
@@ -210,8 +212,7 @@
 		abort();
 	} 
 	
-	[self _refreshDataModel];
-	[_swypHistoryTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+	[_collectionView reloadData];
 		
 }
 

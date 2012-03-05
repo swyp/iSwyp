@@ -33,7 +33,7 @@
 @property (nonatomic, strong) swypWorkspaceViewController *	swypWorkspace;
 
 -(id) initWithObjectContext:(NSManagedObjectContext*)context;
-- (void)updatePasteboard;
+-(void)updatePasteboard;
 
 -(void) hideVCs;
 

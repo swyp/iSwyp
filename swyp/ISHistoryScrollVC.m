@@ -12,43 +12,17 @@
 
 
 @implementation ISHistoryScrollVC
-@synthesize swypDropZoneView = _swypDropZoneView, sectionedDataModel = _sectionedDataModel, resultsController = _resultsController, objectContext = _objectContext, previewVC = _previewVC, contentThumbnailForPendingFilesBySession = _contentThumbnailForPendingFilesBySession;
+@synthesize sectionedDataModel = _sectionedDataModel, resultsController = _resultsController, objectContext = _objectContext, previewVC = _previewVC, contentThumbnailForPendingFilesBySession = _contentThumbnailForPendingFilesBySession;
 @synthesize datasourceDelegate = _datasourceDelegate;
 
-#pragma mark - public
--(UIView*)swypDropZoneView{
-	if (_swypDropZoneView == nil){
-		
-		_swypDropZoneView = [_swypWorkspace embeddableSwypWorkspaceViewForWithFrame:CGRectMake(0, 0, self.view.size.width, (deviceIsPad)?300:200)];
-		[_swypDropZoneView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-
-		UIView * workspacePromptImageView	=	[_swypDropZoneView swypPromptImageView];
-		CGPoint center	=	[workspacePromptImageView center];
-		if (deviceIsPhone_ish){
-			workspacePromptImageView.transform = CGAffineTransformScale([workspacePromptImageView transform], .7, .7);
-			[workspacePromptImageView setCenter:center];
-		}
-		
-		ISDoodleRecognizingGestureRecognizer * doodleGest	=	[[ISDoodleRecognizingGestureRecognizer alloc] initWithTarget:nil action:nil];		
-		[[self view] addGestureRecognizer:doodleGest];
-		
-		assert(_swypHistoryTableView != nil);
-		for (UIGestureRecognizer *gesture in _swypHistoryTableView.gestureRecognizers){
-			[gesture requireGestureRecognizerToFail:doodleGest];
-		}
-		
-	}
-	return _swypDropZoneView;
-}
-
--(ISPreviewVC*)previewVC{
+- (ISPreviewVC *)previewVC{
 	if (_previewVC == nil){
 		_previewVC	=	[[ISPreviewVC alloc] init];
 	}
 	return _previewVC;
 }
 
--(NSFetchedResultsController*)resultsController{
+- (NSFetchedResultsController *)resultsController{
 	if (_resultsController == nil){
 		NSFetchRequest *request = [self _newOrUpdatedFetchRequest];
 		_resultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_objectContext sectionNameKeyPath:nil cacheName:nil];
@@ -57,7 +31,7 @@
 	return _resultsController;
 }
 
--(NITableViewModel*) sectionedDataModel{
+- (NITableViewModel *) sectionedDataModel{
 	if (_sectionedDataModel == nil){
 		NSMutableArray	* sectionArray	=	[[NSMutableArray alloc] init];
 		[sectionArray addObject:LocStr(@"recently recieved",@"On history view for people to view stuff received")];
@@ -69,18 +43,17 @@
 }
 
 #pragma mark - UIViewController
--(void) viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated{
 	[super viewDidAppear:animated];
 	
 	[[swypWorkspaceViewController sharedSwypWorkspace] setContentDataSource:self];
 }
 
--(id) initWithObjectContext:(NSManagedObjectContext*)context swypWorkspace:(swypWorkspaceViewController*)workspace{
+- (id)initWithObjectContext:(NSManagedObjectContext*)context swypWorkspace:(swypWorkspaceViewController*)workspace{
 	if (self  = [super initWithNibName:nil bundle:nil]){
 		self.contentThumbnailForPendingFilesBySession	=	[NSMutableDictionary new];
-		
-		_objectContext	=	context;
-		_swypWorkspace	=	workspace;
+		_objectContext	= context;
+        _swypWorkspace = workspace;
 		[_swypWorkspace addDataDelegate:self];
 	}
 	return self;
@@ -90,11 +63,7 @@
     [super didReceiveMemoryWarning];
 }
 
--(void) viewWillUnload{
-	[_swypWorkspace removeEmbeddableSwypWorkspaceView:_swypDropZoneView];
-}
-
--(void) dealloc{
+- (void)dealloc{
 	[_swypWorkspace removeDataDelegate:self];
 }
 
@@ -104,7 +73,7 @@
 	[self.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"historyBGTile"]]];
 	
-	_swypHistoryTableView		=	[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height) style:UITableViewStylePlain];
+	_swypHistoryTableView	= [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height) style:UITableViewStylePlain];
 	[_swypHistoryTableView setBackgroundColor:[UIColor clearColor]];
 	[_swypHistoryTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
 	[_swypHistoryTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -112,6 +81,12 @@
 	
 	[_swypHistoryTableView setTableHeaderView:[self swypDropZoneView]]; 
 	[self.view addSubview:_swypHistoryTableView];
+    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
+                                                                                target:self 
+                                                                                action:@selector(_done:)];
+    self.title = LocStr(@"Recently Received",nil);
+    self.navigationItem.rightBarButtonItem = doneButton;
 	
 	NSError *error = nil;
 	[[self resultsController] performFetch:&error];
@@ -155,6 +130,10 @@
 	[_swypHistoryTableView setDataSource:[self sectionedDataModel]];
 }
 
+- (void)_done:(id)sender {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark - delegation
 
 #pragma mark UITableViewDelegate
@@ -187,50 +166,21 @@
 	
     if (type == NSFetchedResultsChangeInsert){
 //		[_swypHistoryTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
-    }else if (type == NSFetchedResultsChangeMove){
-	}else if (type == NSFetchedResultsChangeUpdate){
-	}else if (type == NSFetchedResultsChangeDelete){
-	}
+    }
 }
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type{
-}
-
-#pragma mark swypContentDataSourceProtocol
-
-#pragma mark - delegation
-- (NSArray*)	idsForAllContent{
-	return nil;
-}
-- (UIImage *)	iconImageForContentWithID: (NSString*)contentID ofMaxSize:(CGSize)maxIconSize{	
-	return nil;
-	
-}
-- (NSArray*)		supportedFileTypesForContentWithID: (NSString*)contentID{
-	return nil;
-}
-
-- (NSData*)	dataForContentWithID: (NSString*)contentID fileType:	(swypFileTypeString*)type{
-	NSData *	sendPhotoData	=	nil;	
-	return sendPhotoData;
-}
-
--(void)	setDatasourceDelegate:			(id<swypContentDataSourceDelegate>)delegate{
-	_datasourceDelegate	=	delegate;
-}
--(id<swypContentDataSourceDelegate>)	datasourceDelegate{
-	return _datasourceDelegate;
-}
-
--(void)	contentWithIDWasDraggedOffWorkspace:(NSString*)contentID{
-	
-	EXOLog(@"Dragged content off! %@",contentID);
-	[_datasourceDelegate datasourceRemovedContentWithID:contentID withDatasource:self];
 }
 
 #pragma mark swypConnectionSessionDataDelegate
 -(NSArray*)supportedFileTypesForReceipt{
 	//everything supported, plus the thumbnail type as a hack
-	return [NSArray arrayWithObjects:[NSString swypCalendarEventsFileType], [NSString swypAddressFileType],[NSString swypContactFileType], [NSString textPlainFileType],[NSString imagePNGFileType],[NSString imageJPEGFileType],[NSString swypWorkspaceThumbnailFileType], nil];
+	return [NSArray arrayWithObjects:[NSString swypCalendarEventsFileType], 
+                                     [NSString swypAddressFileType],
+                                     [NSString swypContactFileType], 
+                                     [NSString textPlainFileType],
+                                     [NSString imagePNGFileType],
+                                     [NSString imageJPEGFileType],
+                                     [NSString swypWorkspaceThumbnailFileType], nil];
 }
 
 -(void)	yieldedData:(NSData*)streamData ofType:(NSString *)streamType fromDiscernedStream:(swypDiscernedInputStream *)discernedStream inConnectionSession:(swypConnectionSession *)session{

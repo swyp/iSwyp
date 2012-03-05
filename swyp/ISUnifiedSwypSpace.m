@@ -151,7 +151,8 @@
 	if (_historyVC == nil){
 		self.historyVC = [[ISHistoryScrollVC alloc] initWithObjectContext:self.objectContext swypWorkspace:self.swypWorkspace];
 	}
-	[self displayVC:self.historyVC fromRect:[sender convertRect:sender.frame toView:self.view] fromVC:self];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.historyVC];
+	[self displayVC:navController fromRect:[sender convertRect:sender.frame toView:self.view] fromVC:self];
 }
 
 #pragma mark specialty viewC

@@ -8,6 +8,7 @@
 
 #import "ISHistoryCell.h"
 #import "NSDate+Relative.h"
+#import <SSToolkit/SSLabel.h>
 
 @implementation ISHistoryCell
 @synthesize historyItem = _historyItem;
@@ -20,16 +21,17 @@
 		[backgroundView setAutoresizingMask:UIViewAutoresizingFlexibleWidth |UIViewAutoresizingFlexibleHeight];
 		backgroundView.backgroundColor	=	[UIColor whiteColor];
 		[backgroundView setAlpha:.7];
-		self.backgroundView				=	backgroundView;
+		self.backgroundView = backgroundView;
 		
-		self.dateLabel			=	[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, 20)];
-        self.dateLabel.backgroundColor = [UIColor clearColor];
-        self.dateLabel.textColor = [UIColor grayColor];
-        self.dateLabel.highlightedTextColor = [UIColor whiteColor];
-		[self.dateLabel setTextAlignment:UITextAlignmentRight];
-		[self.dateLabel setFont:[UIFont fontWithName:@"futura" size:12]];
-		[self.dateLabel setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
-		[self addSubview:self.dateLabel];
+        
+        self.detailTextLabel.frame = CGRectMake(0, self.height-20, self.width, 20);
+        self.detailTextLabel.backgroundColor = [UIColor clearColor];
+        self.detailTextLabel.textColor = [UIColor blackColor];
+        self.detailTextLabel.highlightedTextColor = [UIColor whiteColor];
+		[self.detailTextLabel setTextAlignment:UITextAlignmentRight];
+		[self.detailTextLabel setFont:[UIFont fontWithName:@"futura" size:12]];
+		[self.detailTextLabel setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
+        [self bringSubviewToFront:self.detailTextLabel];
 		
 		[self.imageView setContentMode:UIViewContentModeScaleAspectFill];
 		[self.imageView setClipsToBounds:TRUE];
@@ -46,7 +48,7 @@
 - (void)setHistoryItem:(ISSwypHistoryItem *)historyItem {
 	if (_historyItem != historyItem){
 		_historyItem	=	historyItem;
-		[self.dateLabel setText:[NSString stringWithFormat:@"%@ ago", 
+		[self.detailTextLabel setText:[NSString stringWithFormat:@"%@ ago", 
                                  [[_historyItem dateAdded] distanceOfTimeInWordsToNow]]];
 		[self updateCellContents];
 	}

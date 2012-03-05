@@ -12,8 +12,9 @@
 
 
 @implementation ISHistoryScrollVC
-@synthesize sectionedDataModel = _sectionedDataModel, resultsController = _resultsController, objectContext = _objectContext, previewVC = _previewVC, contentThumbnailForPendingFilesBySession = _contentThumbnailForPendingFilesBySession;
-@synthesize datasourceDelegate = _datasourceDelegate;
+@synthesize sectionedDataModel = _sectionedDataModel, resultsController = _resultsController, 
+            objectContext = _objectContext, previewVC = _previewVC, datasourceDelegate = _datasourceDelegate,
+            contentThumbnailForPendingFilesBySession = _contentThumbnailForPendingFilesBySession;
 
 - (ISPreviewVC *)previewVC{
 	if (_previewVC == nil){
@@ -25,7 +26,10 @@
 - (NSFetchedResultsController *)resultsController{
 	if (_resultsController == nil){
 		NSFetchRequest *request = [self _newOrUpdatedFetchRequest];
-		_resultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_objectContext sectionNameKeyPath:nil cacheName:nil];
+		_resultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request 
+                                                                 managedObjectContext:_objectContext 
+                                                                   sectionNameKeyPath:nil 
+                                                                            cacheName:nil];
 		[_resultsController setDelegate:self];
 	}
 	return _resultsController;
@@ -34,7 +38,6 @@
 - (NITableViewModel *) sectionedDataModel{
 	if (_sectionedDataModel == nil){
 		NSMutableArray	* sectionArray	=	[[NSMutableArray alloc] init];
-		[sectionArray addObject:LocStr(@"recently recieved",@"On history view for people to view stuff received")];
 		NSArray	* historyItems			= [[self resultsController] fetchedObjects];
 		[sectionArray addObjectsFromArray:historyItems];
 		_sectionedDataModel	=	[[NITableViewModel alloc] initWithSectionedArray:sectionArray delegate:(id)[NICellFactory class]];
